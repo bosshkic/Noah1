@@ -66,7 +66,7 @@
         }
 
         .item.selected::after {
-            content: '👉';
+            content: '👈';
             position: absolute;
             right: 10px;
             top: 50%;
@@ -175,6 +175,35 @@
             pointer-events: none;
         }
 
+        @keyframes flashBorder {
+            0% { border-color: #e0e0e0; }
+            50% { border-color: #3b82f6; border-width: 3px; }
+            100% { border-color: #e0e0e0; }
+        }
+
+        .flash-animation {
+            animation: flashBorder 1.5s ease infinite;
+        }
+
+        .hint-text {
+            text-align: center;
+            color: #3b82f6;
+            font-size: 14px;
+            margin-top: -15px;
+            margin-bottom: 15px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .hint-text.show {
+            opacity: 1;
+        }
+        
+        .hint-text.pair-hint {
+            margin-top: 10px;
+            margin-bottom: -5px;
+        }
+
         @media screen and (max-width: 768px) {
             body {
                 padding: 10px;
@@ -193,29 +222,28 @@
 </head>
 <body>
     <div class="title-container">
-        <h2>挪亞方舟 - 審判宣告</h2>
+        <h2>Noah</h2>
     </div>
 
     <button class="button reset-button" onclick="resetGame()">重設</button>
 
-    <div class="column">
-        <div class="column-header">情況</div>
+    <div class="column" id="leftColumn">
+        <div class="column-header">概況</div>
         <div id="leftItems">
-            <div class="item" onclick="selectItem(this, 'left')">世人敗壞</div>
-            <div class="item" onclick="selectItem(this, 'left')">滅世審判</div>
-            <div class="item" onclick="selectItem(this, 'left')">義人蒙恩</div>
+            <!-- 內容由 JavaScript 生成 -->
         </div>
     </div>
+    <div id="leftHint" class="hint-text">👆 請先選擇一個概況</div>
 
-    <div class="column">
-        <div class="column-header">內容撮要</div>
+    <div class="column" id="rightColumn">
+        <div class="column-header">細節</div>
         <div id="rightItems">
-            <div class="item" onclick="selectItem(this, 'right')">終日心裡思念的，盡都是邪惡。耶和華後悔造人，心中憂傷</div>
-            <div class="item" onclick="selectItem(this, 'right')">地充滿強暴。神的靈離開，設定120年悔改期。宣告洪水毀滅全地</div>
-            <div class="item" onclick="selectItem(this, 'right')">挪亞在神眼前蒙恩。被稱為義人、完全人</div>
+            <!-- 內容由 JavaScript 生成 -->
         </div>
     </div>
+    <div id="rightHint" class="hint-text">👆 然後選擇對應的細節</div>
 
+    <div id="pairHint" class="hint-text">⬇️ 請選擇一個位置存放而配合順序</div>
     <div id="pairContainer">
         <div class="pair-container">
             <div class="pair-number">1</div>
@@ -232,40 +260,172 @@
     </div>
 
     <button class="button check-button" onclick="checkAnswers()">檢查</button>
-
     <script>
-        const correctPairs = [
-            {
-                left: "世人敗壞",
-                right: "終日心裡思念的，盡都是邪惡。耶和華後悔造人，心中憂傷",
-                rightWithVerses: "(6:5) 終日心裡思念的，盡都是邪惡；(6:6) 耶和華後悔造人，心中憂傷；(6:11-12) 地充滿強暴"
+        // 題目管理
+        const allQuestions = {
+            'A': {
+                title: "挪亞方舟 - A.審判宣告",
+                pairs: [
+                    {
+                        left: "世人敗壞",
+                        right: "終日心裡思念的，盡都是邪惡；耶和華後悔造人，心中憂傷；地充滿強暴",
+                        rightWithVerses: "(6:5) 終日心裡思念的，盡都是邪惡 (6:6) 耶和華後悔造人，心中憂傷；(6:11-12) 地充滿強暴"
+                    },
+                    {
+                        left: "滅世審判",
+                        right: "神的靈離開，設定120年悔改期；宣告洪水毀滅全地",
+                        rightWithVerses: "(6:3) 神的靈離開，設定120年悔改期；(6:13，7:4) 宣告洪水毀滅全地"
+                    },
+                    {
+                        left: "義人蒙恩",
+                        right: "挪亞「在神眼前蒙恩」被稱為「義人、完全人」",
+                        rightWithVerses: "(6:8) 挪亞「在神眼前蒙恩」；(6:9，7:1) 被稱為「義人、完全人」"
+                    }
+                ]
             },
-            {
-                left: "滅世審判",
-                right: "地充滿強暴。神的靈離開，設定120年悔改期。宣告洪水毀滅全地",
-                rightWithVerses: "(6:3) 神的靈離開，設定120年悔改期；(6:13，7:4) 宣告洪水毀滅全地"
+            'B': {
+                title: "挪亞方舟 - B.救恩預備",
+                pairs: [
+                    {
+                        left: "方舟建造",
+                        right: "分房分層設計；具體尺寸與結構",
+                        rightWithVerses: "(6:14，6:16) 分房分層設計；(6:15-16) 具體尺寸與結構"
+                    },
+                    {
+                        left: "生命保存",
+                        right: "攜帶各類活物；潔淨/不潔淨的牲畜數量；儲備糧食",
+                        rightWithVerses: "(6:19-20) 攜帶各類活物；(7:2-3) 潔淨/不潔淨的牲畜數量；(6:21) 儲備糧食"
+                    },
+                    {
+                        left: "最後呼召",
+                        right: "挪亞全家進入方舟；神親自關閉方舟門",
+                        rightWithVerses: "(7:1，7:13) 挪亞全家進入方舟；(7:16) 神親自關閉方舟門"
+                    }
+                ]
             },
-            {
-                left: "義人蒙恩",
-                right: "挪亞在神眼前蒙恩。被稱為義人、完全人",
-                rightWithVerses: "(6:8) 挪亞「在神眼前蒙恩」；(6:9，7:1) 被稱為「義人、完全人」"
+            'C': {
+                title: "挪亞方舟 - C.審判執行",
+                pairs: [
+                    {
+                        left: "洪水降臨",
+                        right: "天上淵源裂開；大水氾濫40晝夜",
+                        rightWithVerses: "(7:11) 天上淵源裂開；(7:12，17-20) 大水氾濫40晝夜"
+                    },
+                    {
+                        left: "全地滅絕",
+                        right: "凡有血肉的盡都死亡；水勢浩大150日",
+                        rightWithVerses: "(7:21-23) 凡有血肉的盡都死亡；(7:24) 水勢浩大150日"
+                    },
+                    {
+                        left: "水退記號",
+                        right: "鴿子與橄欖葉；鴿子不再返回",
+                        rightWithVerses: "(8:10-11) 鴿子與橄欖葉；8:12) 鴿子不再返回"
+                    }
+                ]
+            },
+            'D': {
+                title: "挪亞方舟 - D.新約確立",
+                pairs: [
+                    {
+                        left: "出舟獻祭",
+                        right: "築壇獻燔祭；馨香之氣蒙神悅納；不再因人咒地（因為人從小時開始心中所想的都是邪惡的）",
+                        rightWithVerses: "(8:20) 築壇獻燔祭 (8:21) 馨香之氣蒙神悅納；不再因人咒地（因為人從小時開始心中所想的都是邪惡的）"
+                    },
+                    {
+                        left: "永約應許",
+                        right: "不再以洪水滅世；彩虹為立約",
+                        rightWithVerses: "(8:21-22，9:11) 不再以洪水滅世；(9:12-17) 彩虹為立約"
+                    },
+                    {
+                        left: "建新秩序",
+                        right: "賜福生養治理；允許食肉但禁食血；設立血債血償律",
+                        rightWithVerses: "(9:1，9:7) 賜福生養治理；(9:3-4) 允許食肉但禁食血；(9:5-6) 設立血債血償律"
+                    }
+                ]
+            },
+            'E': {
+                title: "挪亞方舟 - E.人性軟弱",
+                pairs: [
+                    {
+                        left: "醉酒失態",
+                        right: "挪亞栽種葡萄園；醉酒赤身躺臥帳棚",
+                        rightWithVerses: "(9:20) 挪亞栽種葡萄園；(9:21) 醉酒赤身躺臥帳棚"
+                    },
+                    {
+                        left: "對待羞恥",
+                        right: "含「看見父親赤身」並宣揚；閃與雅弗「倒退遮蓋」",
+                        rightWithVerses: "(9:22) 含「看見父親赤身」並宣揚；(9:23) 閃與雅弗「倒退遮蓋」"
+                    },
+                    {
+                        left: "咒詛與祝福",
+                        right: "迦南受咒詛；閃與雅弗蒙福",
+                        rightWithVerses: "(9:25) 迦南受咒詛；(9:26-27) 閃與雅弗蒙福"
+                    }
+                ]
             }
-        ];
+        };
 
+        // 當前題目追踪
+        let currentQuestion = localStorage.getItem('currentQuestion') || 'A';
+        let correctPairs = allQuestions[currentQuestion].pairs;
         let selectedLeft = null;
         let selectedRight = null;
         let pairs = [null, null, null];
 
+        function initializeGame() {
+            // 更新標題
+            document.querySelector('.title-container h2').textContent = allQuestions[currentQuestion].title;
+            
+            // 初始化項目
+            initializeItems();
+            shuffleItems();
+            setTimeout(startInitialHints, 500);
+        }
+
+        function initializeItems() {
+            const leftItems = document.getElementById('leftItems');
+            const rightItems = document.getElementById('rightItems');
+            
+            leftItems.innerHTML = '';
+            rightItems.innerHTML = '';
+            
+            correctPairs.forEach(pair => {
+                leftItems.innerHTML += `<div class="item" onclick="selectItem(this, 'left')">${pair.left}</div>`;
+                rightItems.innerHTML += `<div class="item" onclick="selectItem(this, 'right')">${pair.right}</div>`;
+            });
+        }
+
+        function startInitialHints() {
+            const leftColumn = document.getElementById('leftColumn');
+            const leftHint = document.getElementById('leftHint');
+            
+            leftColumn.classList.add('flash-animation');
+            leftHint.classList.add('show');
+        }
+
         function selectItem(element, side) {
             if (element.classList.contains('paired')) return;
+
+            document.querySelectorAll('.column').forEach(col => {
+                col.classList.remove('flash-animation');
+            });
+            
+            document.querySelectorAll('.hint-text').forEach(hint => {
+                hint.classList.remove('show');
+            });
 
             document.querySelectorAll(`#${side}Items .selected`).forEach(item => {
                 item.classList.remove('selected');
             });
 
             element.classList.add('selected');
+            
             if (side === 'left') {
                 selectedLeft = element;
+                const rightColumn = document.getElementById('rightColumn');
+                const rightHint = document.getElementById('rightHint');
+                rightColumn.classList.add('flash-animation');
+                rightHint.classList.add('show');
             } else {
                 selectedRight = element;
             }
@@ -274,10 +434,17 @@
                 document.querySelectorAll('.pair-slot.empty').forEach(slot => {
                     slot.classList.add('highlight');
                 });
+                document.querySelectorAll('.column').forEach(col => {
+                    col.classList.remove('flash-animation');
+                });
+                const pairHint = document.getElementById('pairHint');
+                pairHint.classList.add('show');
             }
         }
 
         function placePair(index) {
+            document.getElementById('pairHint').classList.remove('show');
+            
             if (!selectedLeft || !selectedRight) return;
 
             document.querySelectorAll('.pair-slot').forEach(slot => {
@@ -297,7 +464,7 @@
             const slot = document.querySelectorAll('.pair-slot')[index];
             slot.innerHTML = `
                 <div>${selectedLeft.textContent}</div>
-                <div style="margin-top: 10px; color: #666;">➕</div>
+                <div style="margin-top: 10px; color: #666;">⭐</div>
                 <div>${selectedRight.textContent}</div>
             `;
             slot.classList.remove('empty');
@@ -315,6 +482,12 @@
         function checkAnswers() {
             let allCorrect = true;
             let correctCount = 0;
+
+            const allFilled = pairs.every(pair => pair !== null);
+            if (!allFilled) {
+                alert('請先完成所有配對！');
+                return;
+            }
 
             pairs.forEach((pair, index) => {
                 if (!pair) {
@@ -341,7 +514,7 @@
                     const slot = document.querySelectorAll('.pair-slot')[index];
                     slot.innerHTML = `
                         <div>${pair.left.textContent}</div>
-                        <div style="margin: 10px 0; color: #666;">➕</div>
+                        <div style="margin: 10px 0; color: #666;">⭐</div>
                         <div>${correctPairs[index].rightWithVerses}</div>
                     `;
                 });
@@ -355,13 +528,38 @@
                     slot.onclick = null;
                 });
 
-                alert('答對了！');
-            }
+                const checkButton = document.querySelector('.check-button');
+                
+                if (currentQuestion === 'E') {
+                    checkButton.textContent = '恭喜完成！';
+                    checkButton.onclick = () => {
+                        alert('你已完成所有題目！');
+                        localStorage.removeItem('currentQuestion');
+                        location.reload();
+                    };
+                } else {
+                    checkButton.textContent = '答對了！下一題';
+                    checkButton.onclick = () => {
+                        const nextQuestion = String.fromCharCode(currentQuestion.charCodeAt(0) + 1);
+                        localStorage.setItem('currentQuestion', nextQuestion);
+                        location.reload();
+                    };
+                }
+            } else {
+				setTimeout(() => {
+					if (confirm('答案不正確。要重設當前題目嗎？')) {
+						location.reload();  // 只重新載入當前題目
+					}
+				}, 500);
+			}
         }
 
         function resetGame() {
-            location.reload();
-        }
+			if (confirm('確定要重設當前題目嗎？')) {
+				// 只重新載入當前題目，不清除進度
+				location.reload();
+			}
+		}
 
         function shuffleItems() {
             const leftItems = document.getElementById('leftItems');
@@ -376,7 +574,9 @@
                 .forEach(item => rightItems.appendChild(item));
         }
 
-        document.addEventListener('DOMContentLoaded', shuffleItems);
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeGame();
+        });
     </script>
 </body>
 </html>
