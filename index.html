@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+    <title>挪亞方舟 - 審判宣告</title>
+    <style>
+        body {
+            background-color: #f5f5f5;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .title-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .title-container h2 {
+            margin: 0;
+            color: #1e293b;
+            font-size: 24px;
+        }
+
+        .column {
+            border: 2px solid #e0e0e0;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 12px;
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .column-header {
+            font-size: 1.1em;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 15px;
+            padding: 8px;
+            background: #e2e8f0;
+            border-radius: 6px;
+            text-align: center;
+        }
+
+        .item {
+            margin: 8px 0;
+            padding: 12px 15px;
+            background-color: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            cursor: pointer;
+            user-select: none;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+
+        .item:active {
+            transform: scale(0.98);
+        }
+
+        .item.selected {
+            background-color: #bfdbfe;
+            border-color: #3b82f6;
+        }
+
+        .item.selected::after {
+            content: '👉';
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .item.paired {
+            display: none;
+        }
+
+        .pair-container {
+            margin: 15px 0;
+            position: relative;
+            padding-left: 25px;
+        }
+
+        .pair-number {
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 20px;
+            height: 20px;
+            background: #64748b;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+        }
+
+        .pair-slot {
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .pair-slot.empty {
+            border: 2px dashed #cbd5e1;
+            position: relative;
+            min-height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #f8fafc;
+        }
+
+        .pair-slot.empty::before {
+            content: '⬇️';
+            font-size: 24px;
+            opacity: 0.5;
+        }
+
+        .pair-slot.highlight {
+            border-color: #3b82f6;
+            background-color: #eff6ff;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+
+        .pair-slot.filled {
+            border: 2px solid #3b82f6;
+            background-color: white;
+            padding: 10px;
+        }
+
+        .button {
+            display: block;
+            width: 100%;
+            max-width: 300px;
+            margin: 10px auto;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .check-button {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .reset-button {
+            background-color: #ef4444;
+            color: white;
+        }
+
+        .correct {
+            background-color: #dcfce7;
+            border-color: #4ade80;
+        }
+
+        .incorrect {
+            background-color: #fee2e2;
+            border-color: #f87171;
+        }
+
+        .completed {
+            pointer-events: none;
+        }
+
+        @media screen and (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            .title-container h2 {
+                font-size: 20px;
+            }
+
+            .item {
+                font-size: 14px;
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="title-container">
+        <h2>挪亞方舟 - 審判宣告</h2>
+    </div>
+
+    <button class="button reset-button" onclick="resetGame()">重設</button>
+
+    <div class="column">
+        <div class="column-header">情況</div>
+        <div id="leftItems">
+            <div class="item" onclick="selectItem(this, 'left')">世人敗壞</div>
+            <div class="item" onclick="selectItem(this, 'left')">滅世審判</div>
+            <div class="item" onclick="selectItem(this, 'left')">義人蒙恩</div>
+        </div>
+    </div>
+
+    <div class="column">
+        <div class="column-header">內容撮要</div>
+        <div id="rightItems">
+            <div class="item" onclick="selectItem(this, 'right')">終日心裡思念的，盡都是邪惡。耶和華後悔造人，心中憂傷</div>
+            <div class="item" onclick="selectItem(this, 'right')">地充滿強暴。神的靈離開，設定120年悔改期。宣告洪水毀滅全地</div>
+            <div class="item" onclick="selectItem(this, 'right')">挪亞在神眼前蒙恩。被稱為義人、完全人</div>
+        </div>
+    </div>
+
+    <div id="pairContainer">
+        <div class="pair-container">
+            <div class="pair-number">1</div>
+            <div class="pair-slot empty" onclick="placePair(0)"></div>
+        </div>
+        <div class="pair-container">
+            <div class="pair-number">2</div>
+            <div class="pair-slot empty" onclick="placePair(1)"></div>
+        </div>
+        <div class="pair-container">
+            <div class="pair-number">3</div>
+            <div class="pair-slot empty" onclick="placePair(2)"></div>
+        </div>
+    </div>
+
+    <button class="button check-button" onclick="checkAnswers()">檢查</button>
+
+    <script>
+        const correctPairs = [
+            {
+                left: "世人敗壞",
+                right: "終日心裡思念的，盡都是邪惡。耶和華後悔造人，心中憂傷",
+                rightWithVerses: "(6:5) 終日心裡思念的，盡都是邪惡；(6:6) 耶和華後悔造人，心中憂傷；(6:11-12) 地充滿強暴"
+            },
+            {
+                left: "滅世審判",
+                right: "地充滿強暴。神的靈離開，設定120年悔改期。宣告洪水毀滅全地",
+                rightWithVerses: "(6:3) 神的靈離開，設定120年悔改期；(6:13，7:4) 宣告洪水毀滅全地"
+            },
+            {
+                left: "義人蒙恩",
+                right: "挪亞在神眼前蒙恩。被稱為義人、完全人",
+                rightWithVerses: "(6:8) 挪亞「在神眼前蒙恩」；(6:9，7:1) 被稱為「義人、完全人」"
+            }
+        ];
+
+        let selectedLeft = null;
+        let selectedRight = null;
+        let pairs = [null, null, null];
+
+        function selectItem(element, side) {
+            if (element.classList.contains('paired')) return;
+
+            document.querySelectorAll(`#${side}Items .selected`).forEach(item => {
+                item.classList.remove('selected');
+            });
+
+            element.classList.add('selected');
+            if (side === 'left') {
+                selectedLeft = element;
+            } else {
+                selectedRight = element;
+            }
+
+            if (selectedLeft && selectedRight) {
+                document.querySelectorAll('.pair-slot.empty').forEach(slot => {
+                    slot.classList.add('highlight');
+                });
+            }
+        }
+
+        function placePair(index) {
+            if (!selectedLeft || !selectedRight) return;
+
+            document.querySelectorAll('.pair-slot').forEach(slot => {
+                slot.classList.remove('highlight');
+            });
+
+            if (pairs[index]) {
+                pairs[index].left.classList.remove('paired');
+                pairs[index].right.classList.remove('paired');
+            }
+
+            pairs[index] = {
+                left: selectedLeft,
+                right: selectedRight
+            };
+
+            const slot = document.querySelectorAll('.pair-slot')[index];
+            slot.innerHTML = `
+                <div>${selectedLeft.textContent}</div>
+                <div style="margin-top: 10px; color: #666;">➕</div>
+                <div>${selectedRight.textContent}</div>
+            `;
+            slot.classList.remove('empty');
+            slot.classList.add('filled');
+
+            selectedLeft.classList.add('paired');
+            selectedRight.classList.add('paired');
+
+            selectedLeft.classList.remove('selected');
+            selectedRight.classList.remove('selected');
+            selectedLeft = null;
+            selectedRight = null;
+        }
+
+        function checkAnswers() {
+            let allCorrect = true;
+            let correctCount = 0;
+
+            pairs.forEach((pair, index) => {
+                if (!pair) {
+                    allCorrect = false;
+                    return;
+                }
+
+                const isCorrect = 
+                    pair.left.textContent === correctPairs[index].left && 
+                    pair.right.textContent === correctPairs[index].right;
+
+                const slot = document.querySelectorAll('.pair-slot')[index];
+                if (isCorrect) {
+                    slot.classList.add('correct');
+                    correctCount++;
+                } else {
+                    slot.classList.add('incorrect');
+                    allCorrect = false;
+                }
+            });
+
+            if (allCorrect) {
+                pairs.forEach((pair, index) => {
+                    const slot = document.querySelectorAll('.pair-slot')[index];
+                    slot.innerHTML = `
+                        <div>${pair.left.textContent}</div>
+                        <div style="margin: 10px 0; color: #666;">➕</div>
+                        <div>${correctPairs[index].rightWithVerses}</div>
+                    `;
+                });
+
+                document.querySelectorAll('.item').forEach(item => {
+                    item.classList.add('completed');
+                    item.onclick = null;
+                });
+
+                document.querySelectorAll('.pair-slot').forEach(slot => {
+                    slot.onclick = null;
+                });
+
+                alert('答對了！');
+            }
+        }
+
+        function resetGame() {
+            location.reload();
+        }
+
+        function shuffleItems() {
+            const leftItems = document.getElementById('leftItems');
+            const rightItems = document.getElementById('rightItems');
+            
+            Array.from(leftItems.children)
+                .sort(() => Math.random() - 0.5)
+                .forEach(item => leftItems.appendChild(item));
+            
+            Array.from(rightItems.children)
+                .sort(() => Math.random() - 0.5)
+                .forEach(item => rightItems.appendChild(item));
+        }
+
+        document.addEventListener('DOMContentLoaded', shuffleItems);
+    </script>
+</body>
+</html>
