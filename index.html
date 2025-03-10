@@ -6,218 +6,266 @@
     <title>Noah</title>
     <style>
         body {
-            background-color: #f5f5f5;
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 20px;
-            min-height: 100vh;
-        }
+			background-color: #f5f5f5;
+			font-family: Arial, sans-serif;
+			margin: 0;
+			padding: 20px;
+			min-height: 100vh;
+		}
 
-        .title-container {
-            text-align: center;
-            margin-bottom: 20px;
-        }
+		.title-container {
+			text-align: center;
+			margin-bottom: 20px;
+		}
 
-        .title-container h2 {
-            margin: 0;
-            color: #1e293b;
-            font-size: 24px;
-        }
+		.title-container h2 {
+			margin: 0;
+			color: #1e293b;
+			font-size: 24px;
+		}
 
-        .column {
-            border: 2px solid #e0e0e0;
-            padding: 15px;
-            margin-bottom: 15px;
-            border-radius: 12px;
-            background-color: white;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-        }
+		.column {
+			border: 2px solid #e0e0e0;
+			padding: 15px;
+			margin-bottom: 15px;
+			border-radius: 12px;
+			background-color: white;
+			box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+		}
 
-        .column-header {
-            font-size: 1.1em;
-            font-weight: 600;
-            color: #1e293b;
-            margin-bottom: 15px;
-            padding: 8px;
-            background: #e2e8f0;
-            border-radius: 6px;
-            text-align: center;
-        }
+		.column-header {
+			font-size: 1.1em;
+			font-weight: 600;
+			color: #1e293b;
+			margin-bottom: 15px;
+			padding: 8px;
+			background: #e2e8f0;
+			border-radius: 6px;
+			text-align: center;
+		}
 
-        .item {
-            margin: 8px 0;
-            padding: 12px 15px;
-            background-color: #f8f9fa;
-            border: 1px solid #e9ecef;
-            border-radius: 8px;
-            cursor: pointer;
-            user-select: none;
-            transition: all 0.2s ease;
-            position: relative;
-        }
+		.item {
+			margin: 8px 0;
+			padding: 12px 15px;
+			background-color: #f8f9fa;
+			border: 1px solid #e9ecef;
+			border-radius: 8px;
+			cursor: pointer;
+			user-select: none;
+			transition: all 0.2s ease;
+			position: relative;
+		}
 
-        .item:active {
-            transform: scale(0.98);
-        }
+		.item:active {
+			transform: scale(0.98);
+		}
 
-        .item.selected {
-            background-color: #bfdbfe;
-            border-color: #3b82f6;
-        }
+		.item.selected {
+			background-color: #bfdbfe;
+			border-color: #3b82f6;
+		}
 
-        .item.selected::after {
-            content: '👈';
-            position: absolute;
-            right: 10px;
-            top: 50%;
-            transform: translateY(-50%);
-        }
+		.item.selected::after {
+			content: '👈';
+			position: absolute;
+			right: 10px;
+			top: 50%;
+			transform: translateY(-50%);
+		}
 
-        .item.paired {
-            display: none;
-        }
+		.item.paired {
+			display: none;
+		}
 
-        .pair-container {
-            margin: 15px 0;
-            position: relative;
-            padding-left: 25px;
-        }
+		.pair-container {
+			margin: 15px 0;
+			position: relative;
+			padding-left: 25px;
+		}
 
-        .pair-number {
-            position: absolute;
-            left: 0;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 20px;
-            height: 20px;
-            background: #64748b;
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
-        }
+		.pair-number {
+			position: absolute;
+			left: 0;
+			top: 50%;
+			transform: translateY(-50%);
+			width: 20px;
+			height: 20px;
+			background: #64748b;
+			color: white;
+			border-radius: 50%;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-size: 12px;
+		}
 
-        .pair-slot {
-            border-radius: 8px;
-            transition: all 0.2s ease;
-        }
+		.pair-slot {
+			border-radius: 8px;
+			transition: all 0.3s ease;
+		}
 
-        .pair-slot.empty {
-            border: 2px dashed #cbd5e1;
-            position: relative;
-            min-height: 50px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: #f8fafc;
-        }
+		.pair-slot.empty {
+			border: 2px dashed #cbd5e1;
+			min-height: 50px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			background-color: #f8fafc;
+		}
 
-        .pair-slot.empty::before {
-            content: '⬇️';
-            font-size: 24px;
-            opacity: 0.5;
-        }
+		.pair-slot.empty::before {
+			content: '⬇️';
+			font-size: 24px;
+			opacity: 0.5;
+		}
 
-        .pair-slot.highlight {
-            border-color: #3b82f6;
-            background-color: #eff6ff;
-            animation: pulse 1.5s infinite;
-        }
+		.pair-slot.highlight {
+			border-color: #3b82f6;
+			background-color: #eff6ff;
+			animation: pulse 1.5s infinite;
+		}
 
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.02); }
-            100% { transform: scale(1); }
-        }
+		.pair-slot.filled {
+			border: 2px solid #3b82f6;
+			background-color: white;
+			padding: 10px;
+		}
 
-        .pair-slot.filled {
-            border: 2px solid #3b82f6;
-            background-color: white;
-            padding: 10px;
-        }
+		.pair-slot.correct {
+			background-color: #f0fdf4;
+			border-color: #4ade80;
+		}
 
-        .button {
-            display: block;
-            width: 100%;
-            max-width: 300px;
-            margin: 10px auto;
-            padding: 12px;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
+		.pair-slot.incorrect {
+			background-color: #fef2f2;
+			border-color: #f87171;
+		}
 
-        .check-button {
-            background-color: #4CAF50;
-            color: white;
-        }
+		.button {
+			display: block;
+			width: 100%;
+			max-width: 300px;
+			margin: 10px auto;
+			padding: 12px;
+			border: none;
+			border-radius: 8px;
+			font-size: 16px;
+			cursor: pointer;
+			transition: all 0.2s ease;
+		}
 
-        .reset-button {
-            background-color: #ef4444;
-            color: white;
-        }
+		.check-button {
+			background-color: #4CAF50;
+			color: white;
+		}
 
-        .correct {
-            background-color: #dcfce7;
-            border-color: #4ade80;
-        }
+		.reset-button {
+			background-color: #ef4444;
+			color: white;
+		}
 
-        .incorrect {
-            background-color: #fee2e2;
-            border-color: #f87171;
-        }
+		.completed {
+			pointer-events: none;
+		}
 
-        .completed {
-            pointer-events: none;
-        }
+		@keyframes pulse {
+			0% { transform: scale(1); }
+			50% { transform: scale(1.02); }
+			100% { transform: scale(1); }
+		}
 
-        @keyframes flashBorder {
-            0% { border-color: #e0e0e0; }
-            50% { border-color: #3b82f6; border-width: 3px; }
-            100% { border-color: #e0e0e0; }
-        }
+		@keyframes flashBorder {
+			0% { border-color: #e0e0e0; }
+			50% { border-color: #3b82f6; border-width: 3px; }
+			100% { border-color: #e0e0e0; }
+		}
 
-        .flash-animation {
-            animation: flashBorder 1.5s ease infinite;
-        }
+		.flash-animation {
+			animation: flashBorder 1.5s ease infinite;
+		}
 
-        .hint-text {
-            text-align: center;
-            color: #3b82f6;
-            font-size: 14px;
-            margin-top: -15px;
-            margin-bottom: 15px;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
+		.hint-text {
+			text-align: center;
+			color: #3b82f6;
+			font-size: 14px;
+			margin-bottom: 15px;
+			opacity: 0;
+			transition: opacity 0.3s ease;
+		}
 
-        .hint-text.show {
-            opacity: 1;
-        }
-        
-        .hint-text.pair-hint {
-            margin-top: 10px;
-            margin-bottom: -5px;
-        }
+		.hint-text.show {
+			opacity: 1;
+		}
 
-        @media screen and (max-width: 768px) {
-            body {
-                padding: 10px;
-            }
+		.hint-text.pair-hint {
+			margin-top: 10px;
+			margin-bottom: -5px;
+		}
+		
+		.summary-pair {
+			display: flex;
+			flex-direction: column;
+			gap: 8px;
+			margin-bottom: 20px;
+			padding: 15px;
+			background: white;
+			border-radius: 6px;
+			box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+		}
 
-            .title-container h2 {
-                font-size: 20px;
-            }
+		.summary-pair-left {
+			padding: 10px;
+			background: #e2e8f0;
+			border-radius: 6px;
+			font-weight: bold;
+			color: #1e293b;
+		}
 
-            .item {
-                font-size: 14px;
-                padding: 10px;
-            }
-        }
+		.summary-pair-arrow {
+			color: #64748b;
+			text-align: center;
+			font-size: 1.2em;
+		}
+
+		.summary-pair-right {
+			padding: 10px;
+			background: #f1f5f9;
+			border-radius: 6px;
+			line-height: 1.5;
+		}
+
+		.summary-section {
+			margin-bottom: 30px;
+			padding: 20px;
+			border: 1px solid #e2e8f0;
+			border-radius: 8px;
+			background: #f8fafc;
+		}
+
+		.summary-section-title {
+			font-size: 18px;
+			color: #1e293b;
+			margin-bottom: 20px;
+			padding-bottom: 10px;
+			border-bottom: 2px solid #e2e8f0;
+			font-weight: bold;
+			text-align: center;
+		}
+
+		@media screen and (max-width: 768px) {
+			body {
+				padding: 10px;
+			}
+
+			.title-container h2 {
+				font-size: 20px;
+			}
+
+			.item {
+				font-size: 14px;
+				padding: 10px;
+			}
+		}
     </style>
 </head>
 <body>
@@ -227,21 +275,21 @@
 
     <button class="button reset-button" onclick="resetGame()">重設</button>
 
+	<div id="leftHint" class="hint-text">👇🏻 請先選擇一個概況</div>
     <div class="column" id="leftColumn">
         <div class="column-header">概況</div>
         <div id="leftItems">
             <!-- 內容由 JavaScript 生成 -->
         </div>
     </div>
-    <div id="leftHint" class="hint-text">👆 請先選擇一個概況</div>
 
+	<div id="rightHint" class="hint-text">👇🏻 然後選擇對應的細節</div>
     <div class="column" id="rightColumn">
         <div class="column-header">細節</div>
         <div id="rightItems">
             <!-- 內容由 JavaScript 生成 -->
         </div>
     </div>
-    <div id="rightHint" class="hint-text">👆 然後選擇對應的細節</div>
 
     <div id="pairHint" class="hint-text">⬇️ 請選擇一個位置存放而配合順序</div>
     <div id="pairContainer">
@@ -260,11 +308,17 @@
     </div>
 
     <button class="button check-button" onclick="checkAnswers()">檢查</button>
+	
+	<div id="summaryContainer" style="display: none;" class="summary-container">
+		<h2 class="summary-title">總結回顧</h2>
+		<div id="summaryContent"></div>
+		<button class="button check-button" onclick="location.reload()">重新開始</button>
+	</div>
     <script>
         // 題目管理
         const allQuestions = {
             'A': {
-                title: "挪亞方舟 - A.審判宣告",
+                title: "挪亞洪水 - A.審判宣告",
                 pairs: [
                     {
                         left: "世人敗壞",
@@ -284,7 +338,7 @@
                 ]
             },
             'B': {
-                title: "挪亞方舟 - B.救恩預備",
+                title: "挪亞洪水 - B.救恩預備",
                 pairs: [
                     {
                         left: "方舟建造",
@@ -292,9 +346,9 @@
                         rightWithVerses: "(6:14，6:16) 分房分層設計；(6:15-16) 具體尺寸與結構"
                     },
                     {
-                        left: "生命保存",
-                        right: "攜帶各類活物；潔淨/不潔淨的牲畜數量；儲備糧食",
-                        rightWithVerses: "(6:19-20) 攜帶各類活物；(7:2-3) 潔淨/不潔淨的牲畜數量；(6:21) 儲備糧食"
+                        left: "動物保存",
+                        right: "攜帶各類活物；潔淨的七公七母，不潔淨的一公一母；儲備糧食",
+                        rightWithVerses: "(6:19-20) 攜帶各類活物；(7:2-3) 潔淨的七公七母，不潔淨的一公一母；(6:21) 儲備糧食"
                     },
                     {
                         left: "最後呼召",
@@ -304,7 +358,7 @@
                 ]
             },
             'C': {
-                title: "挪亞方舟 - C.審判執行",
+                title: "挪亞洪水 - C.審判執行",
                 pairs: [
                     {
                         left: "洪水降臨",
@@ -324,27 +378,27 @@
                 ]
             },
             'D': {
-                title: "挪亞方舟 - D.新約確立",
+                title: "挪亞洪水 - D.約的確立",
                 pairs: [
                     {
                         left: "出舟獻祭",
                         right: "築壇獻燔祭；馨香之氣蒙神悅納；不再因人咒地（因為人從小時開始心中所想的都是邪惡的）",
                         rightWithVerses: "(8:20) 築壇獻燔祭 (8:21) 馨香之氣蒙神悅納；不再因人咒地（因為人從小時開始心中所想的都是邪惡的）"
                     },
-                    {
-                        left: "永約應許",
-                        right: "不再以洪水滅世；彩虹為立約",
-                        rightWithVerses: "(8:21-22，9:11) 不再以洪水滅世；(9:12-17) 彩虹為立約"
+					{
+                        left: "頒佈命令",
+                        right: "賜福繁衍增多生養治理；允許食肉但禁食血；追討流人血者的罪",
+                        rightWithVerses: "(9:1，9:7) 賜福繁衍增多生養治理；(9:3-4) 允許食肉但禁食血；(9:5-6) 追討流人血者的罪"
                     },
                     {
-                        left: "建新秩序",
-                        right: "賜福生養治理；允許食肉但禁食血；設立血債血償律",
-                        rightWithVerses: "(9:1，9:7) 賜福生養治理；(9:3-4) 允許食肉但禁食血；(9:5-6) 設立血債血償律"
+                        left: "永約應許",
+                        right: "不再以洪水滅世；彩虹之約",
+                        rightWithVerses: "(8:21-22，9:11) 不再以洪水滅世；(9:12-17) 彩虹之約"
                     }
                 ]
             },
             'E': {
-                title: "挪亞方舟 - E.人性軟弱",
+                title: "挪亞洪水 - E.人性軟弱",
                 pairs: [
                     {
                         left: "醉酒失態",
@@ -352,7 +406,7 @@
                         rightWithVerses: "(9:20) 挪亞栽種葡萄園；(9:21) 醉酒赤身躺臥帳棚"
                     },
                     {
-                        left: "對待羞恥",
+                        left: "怎對待羞恥",
                         right: "含「看見父親赤身」並宣揚；閃與雅弗「倒退遮蓋」",
                         rightWithVerses: "(9:22) 含「看見父親赤身」並宣揚；(9:23) 閃與雅弗「倒退遮蓋」"
                     },
@@ -366,217 +420,361 @@
         };
 
         // 當前題目追踪
-        let currentQuestion = localStorage.getItem('currentQuestion') || 'A';
-        let correctPairs = allQuestions[currentQuestion].pairs;
-        let selectedLeft = null;
-        let selectedRight = null;
-        let pairs = [null, null, null];
+		let currentQuestion = 'A';  // 固定從 A 開始
+		let correctPairs = allQuestions[currentQuestion].pairs;
+		let selectedLeft = null;
+		let selectedRight = null;
+		let pairs = [null, null, null];
 
-        function initializeGame() {
-            // 更新標題
-            document.querySelector('.title-container h2').textContent = allQuestions[currentQuestion].title;
-            
-            // 初始化項目
-            initializeItems();
-            shuffleItems();
-            setTimeout(startInitialHints, 500);
-        }
+		function initializeGame() {
+			// 更新標題
+			document.querySelector('.title-container h2').textContent = allQuestions[currentQuestion].title;
+			
+			// 初始化項目
+			initializeItems();
+			shuffleItems();
+			setTimeout(startInitialHints, 500);
+		}
 
-        function initializeItems() {
-            const leftItems = document.getElementById('leftItems');
-            const rightItems = document.getElementById('rightItems');
-            
-            leftItems.innerHTML = '';
-            rightItems.innerHTML = '';
-            
-            correctPairs.forEach(pair => {
-                leftItems.innerHTML += `<div class="item" onclick="selectItem(this, 'left')">${pair.left}</div>`;
-                rightItems.innerHTML += `<div class="item" onclick="selectItem(this, 'right')">${pair.right}</div>`;
-            });
-        }
+		function initializeItems() {
+			const leftItems = document.getElementById('leftItems');
+			const rightItems = document.getElementById('rightItems');
+			
+			leftItems.innerHTML = '';
+			rightItems.innerHTML = '';
+			
+			correctPairs.forEach(pair => {
+				leftItems.innerHTML += `<div class="item" onclick="selectItem(this, 'left')">${pair.left}</div>`;
+				rightItems.innerHTML += `<div class="item" onclick="selectItem(this, 'right')">${pair.right}</div>`;
+			});
+		}
 
-        function startInitialHints() {
-            const leftColumn = document.getElementById('leftColumn');
-            const leftHint = document.getElementById('leftHint');
-            
-            leftColumn.classList.add('flash-animation');
-            leftHint.classList.add('show');
-        }
+		function startInitialHints() {
+			const leftColumn = document.getElementById('leftColumn');
+			const leftHint = document.getElementById('leftHint');
+			
+			leftColumn.classList.add('flash-animation');
+			leftHint.classList.add('show');
+		}
 
-        function selectItem(element, side) {
-            if (element.classList.contains('paired')) return;
+		function selectItem(element, side) {
+			if (element.classList.contains('paired')) return;
 
-            document.querySelectorAll('.column').forEach(col => {
-                col.classList.remove('flash-animation');
-            });
-            
-            document.querySelectorAll('.hint-text').forEach(hint => {
-                hint.classList.remove('show');
-            });
+			document.querySelectorAll('.column').forEach(col => {
+				col.classList.remove('flash-animation');
+			});
+			
+			document.querySelectorAll('.hint-text').forEach(hint => {
+				hint.classList.remove('show');
+			});
 
-            document.querySelectorAll(`#${side}Items .selected`).forEach(item => {
-                item.classList.remove('selected');
-            });
+			document.querySelectorAll(`#${side}Items .selected`).forEach(item => {
+				item.classList.remove('selected');
+			});
 
-            element.classList.add('selected');
-            
-            if (side === 'left') {
-                selectedLeft = element;
-                const rightColumn = document.getElementById('rightColumn');
-                const rightHint = document.getElementById('rightHint');
-                rightColumn.classList.add('flash-animation');
-                rightHint.classList.add('show');
-            } else {
-                selectedRight = element;
-            }
-
-            if (selectedLeft && selectedRight) {
-                document.querySelectorAll('.pair-slot.empty').forEach(slot => {
-                    slot.classList.add('highlight');
-                });
-                document.querySelectorAll('.column').forEach(col => {
-                    col.classList.remove('flash-animation');
-                });
-                const pairHint = document.getElementById('pairHint');
-                pairHint.classList.add('show');
-            }
-        }
-
-        function placePair(index) {
-            document.getElementById('pairHint').classList.remove('show');
-            
-            if (!selectedLeft || !selectedRight) return;
-
-            document.querySelectorAll('.pair-slot').forEach(slot => {
-                slot.classList.remove('highlight');
-            });
-
-            if (pairs[index]) {
-                pairs[index].left.classList.remove('paired');
-                pairs[index].right.classList.remove('paired');
-            }
-
-            pairs[index] = {
-                left: selectedLeft,
-                right: selectedRight
-            };
-
-            const slot = document.querySelectorAll('.pair-slot')[index];
-            slot.innerHTML = `
-                <div>${selectedLeft.textContent}</div>
-                <div style="margin-top: 10px; color: #666;">⭐</div>
-                <div>${selectedRight.textContent}</div>
-            `;
-            slot.classList.remove('empty');
-            slot.classList.add('filled');
-
-            selectedLeft.classList.add('paired');
-            selectedRight.classList.add('paired');
-
-            selectedLeft.classList.remove('selected');
-            selectedRight.classList.remove('selected');
-            selectedLeft = null;
-            selectedRight = null;
-        }
-
-        function checkAnswers() {
-            let allCorrect = true;
-            let correctCount = 0;
-
-            const allFilled = pairs.every(pair => pair !== null);
-            if (!allFilled) {
-                alert('請先完成所有配對！');
-                return;
-            }
-
-            pairs.forEach((pair, index) => {
-                if (!pair) {
-                    allCorrect = false;
-                    return;
-                }
-
-                const isCorrect = 
-                    pair.left.textContent === correctPairs[index].left && 
-                    pair.right.textContent === correctPairs[index].right;
-
-                const slot = document.querySelectorAll('.pair-slot')[index];
-                if (isCorrect) {
-                    slot.classList.add('correct');
-                    correctCount++;
-                } else {
-                    slot.classList.add('incorrect');
-                    allCorrect = false;
-                }
-            });
-
-            if (allCorrect) {
-                pairs.forEach((pair, index) => {
-                    const slot = document.querySelectorAll('.pair-slot')[index];
-                    slot.innerHTML = `
-                        <div>${pair.left.textContent}</div>
-                        <div style="margin: 10px 0; color: #666;">⭐</div>
-                        <div>${correctPairs[index].rightWithVerses}</div>
-                    `;
-                });
-
-                document.querySelectorAll('.item').forEach(item => {
-                    item.classList.add('completed');
-                    item.onclick = null;
-                });
-
-                document.querySelectorAll('.pair-slot').forEach(slot => {
-                    slot.onclick = null;
-                });
-
-                const checkButton = document.querySelector('.check-button');
-                
-                if (currentQuestion === 'E') {
-                    checkButton.textContent = '恭喜完成！';
-                    checkButton.onclick = () => {
-                        alert('你已完成所有題目！');
-                        localStorage.removeItem('currentQuestion');
-                        location.reload();
-                    };
-                } else {
-                    checkButton.textContent = '答對了！下一題';
-                    checkButton.onclick = () => {
-                        const nextQuestion = String.fromCharCode(currentQuestion.charCodeAt(0) + 1);
-                        localStorage.setItem('currentQuestion', nextQuestion);
-                        location.reload();
-                    };
-                }
-            } else {
-				setTimeout(() => {
-					if (confirm('答案不正確。要重設當前題目嗎？')) {
-						location.reload();  // 只重新載入當前題目
-					}
-				}, 500);
+			element.classList.add('selected');
+			
+			if (side === 'left') {
+				selectedLeft = element;
+				const rightColumn = document.getElementById('rightColumn');
+				const rightHint = document.getElementById('rightHint');
+				rightColumn.classList.add('flash-animation');
+				rightHint.classList.add('show');
+			} else {
+				selectedRight = element;
 			}
-        }
 
-        function resetGame() {
-			if (confirm('確定要重設當前題目嗎？')) {
-				// 只重新載入當前題目，不清除進度
-				location.reload();
+			if (selectedLeft && selectedRight) {
+				document.querySelectorAll('.pair-slot.empty').forEach(slot => {
+					slot.classList.add('highlight');
+				});
+				document.querySelectorAll('.column').forEach(col => {
+					col.classList.remove('flash-animation');
+				});
+				const pairHint = document.getElementById('pairHint');
+				pairHint.classList.add('show');
 			}
 		}
 
-        function shuffleItems() {
-            const leftItems = document.getElementById('leftItems');
-            const rightItems = document.getElementById('rightItems');
-            
-            Array.from(leftItems.children)
-                .sort(() => Math.random() - 0.5)
-                .forEach(item => leftItems.appendChild(item));
-            
-            Array.from(rightItems.children)
-                .sort(() => Math.random() - 0.5)
-                .forEach(item => rightItems.appendChild(item));
-        }
+		function placePair(index) {
+			document.getElementById('pairHint').classList.remove('show');
+			
+			if (!selectedLeft || !selectedRight) return;
 
-        document.addEventListener('DOMContentLoaded', () => {
-            initializeGame();
-        });
+			document.querySelectorAll('.pair-slot').forEach(slot => {
+				slot.classList.remove('highlight');
+			});
+
+			if (pairs[index]) {
+				pairs[index].left.classList.remove('paired');
+				pairs[index].right.classList.remove('paired');
+			}
+
+			pairs[index] = {
+				left: selectedLeft,
+				right: selectedRight
+			};
+
+			const slot = document.querySelectorAll('.pair-slot')[index];
+			slot.innerHTML = `
+				<div>${selectedLeft.textContent}</div>
+				<div style="margin-top: 10px; color: #666;">⭐</div>
+				<div>${selectedRight.textContent}</div>
+			`;
+			slot.classList.remove('empty');
+			slot.classList.add('filled');
+
+			selectedLeft.classList.add('paired');
+			selectedRight.classList.add('paired');
+
+			selectedLeft.classList.remove('selected');
+			selectedRight.classList.remove('selected');
+			selectedLeft = null;
+			selectedRight = null;
+		}
+
+		function checkAnswers() {
+			let allCorrect = true;
+			let correctCount = 0;
+
+			const allFilled = pairs.every(pair => pair !== null);
+			if (!allFilled) {
+				alert('請先完成所有配對！');
+				return;
+			}
+
+			pairs.forEach((pair, index) => {
+				if (!pair) {
+					allCorrect = false;
+					return;
+				}
+
+				const isCorrect = 
+					pair.left.textContent === correctPairs[index].left && 
+					pair.right.textContent === correctPairs[index].right;
+
+				const slot = document.querySelectorAll('.pair-slot')[index];
+				
+				if (isCorrect) {
+					slot.classList.add('correct');
+					correctCount++;
+				} else {
+					slot.classList.add('incorrect');
+					allCorrect = false;
+				}
+			});
+
+			if (allCorrect) {
+				pairs.forEach((pair, index) => {
+					const slot = document.querySelectorAll('.pair-slot')[index];
+					slot.innerHTML = `
+						<div>${pair.left.textContent}</div>
+						<div style="margin: 10px 0; color: #666;">⭐</div>
+						<div>${correctPairs[index].rightWithVerses}</div>
+					`;
+				});
+
+				document.querySelectorAll('.item').forEach(item => {
+					item.classList.add('completed');
+					item.onclick = null;
+				});
+
+				document.querySelectorAll('.pair-slot').forEach(slot => {
+					slot.onclick = null;
+				});
+
+				// 只在非E題時才滾動到底部
+				if (currentQuestion !== 'E') {
+					setTimeout(() => {
+						window.scrollTo({
+							top: document.documentElement.scrollHeight,
+							behavior: 'smooth'
+						});
+					}, 300);
+				}
+
+				const checkButton = document.querySelector('.check-button');
+				
+				if (currentQuestion === 'E') {
+					// 隱藏遊戲界面
+					document.querySelectorAll('.column, .pair-container, .progress-container, .reset-button, #leftHint, #rightHint, #pairHint').forEach(el => {
+						el.style.display = 'none';
+					});
+					
+					// 修改標題
+					document.querySelector('.title-container h2').textContent = '挪亞方舟';
+					
+					// 生成總結內容
+					const summaryContent = document.getElementById('summaryContent');
+					summaryContent.innerHTML = '';
+					
+					// 遍歷所有題目生成總結
+					Object.entries(allQuestions).forEach(([key, question]) => {
+						const section = document.createElement('div');
+						section.className = 'summary-section';
+						
+						const subtitle = question.title.split(' - ')[1];
+						
+						section.innerHTML = `
+							<div class="summary-section-title">${subtitle}</div>
+							${question.pairs.map(pair => `
+								<div class="summary-pair">
+									<div class="summary-pair-left">${pair.left}</div>
+									<div class="summary-pair-arrow">↓</div>
+									<div class="summary-pair-right">${pair.rightWithVerses}</div>
+								</div>
+							`).join('')}
+						`;
+						
+						summaryContent.appendChild(section);
+					});
+					
+					// 顯示總結容器
+					document.getElementById('summaryContainer').style.display = 'block';
+					
+					// 直接滾動到頂部
+					window.scrollTo({
+						top: 0,
+						behavior: 'instant'
+					});
+
+					checkButton.textContent = '重新開始';
+					checkButton.onclick = () => {
+						location.reload();
+					};
+				} else {
+					checkButton.textContent = '答對了！下一題';
+					checkButton.onclick = function goToNextQuestion() {
+						// 更新當前題目
+						currentQuestion = String.fromCharCode(currentQuestion.charCodeAt(0) + 1);
+						correctPairs = allQuestions[currentQuestion].pairs;
+						
+						// 重置所有狀態
+						selectedLeft = null;
+						selectedRight = null;
+						pairs = [null, null, null];
+
+						// 滾動到頂部
+						window.scrollTo({
+							top: 0,
+							behavior: 'smooth'
+						});
+
+						// 給滾動一點時間完成
+						setTimeout(() => {
+							// 清除所有項目
+							document.getElementById('leftItems').innerHTML = '';
+							document.getElementById('rightItems').innerHTML = '';
+
+							// 更新標題
+							document.querySelector('.title-container h2').textContent = allQuestions[currentQuestion].title;
+
+							// 重設所有配對槽
+							const slots = document.querySelectorAll('.pair-slot');
+							slots.forEach((slot, index) => {
+								slot.classList.remove('filled', 'correct', 'incorrect');
+								slot.classList.add('empty');
+								slot.innerHTML = '';
+								slot.onclick = () => placePair(index);
+							});
+
+							// 重設檢查按鈕
+							checkButton.textContent = '檢查';
+							checkButton.onclick = checkAnswers;
+
+							// 初始化新題目的項目
+							initializeItems();
+							shuffleItems();    
+
+							// 重新啟動提示
+							setTimeout(startInitialHints, 500);
+						}, 300);
+					};
+				}
+			} else {
+				setTimeout(() => {
+					if (confirm('答案不正確。要重設當前題目再試嗎？')) {
+						resetGame();
+					}
+				}, 500);
+			}
+		}
+
+		function resetGame() {
+			if (confirm('確定要重設當前題目嗎？')) {
+				// 重新啟用所有項目的點擊事件
+				const leftItems = document.querySelectorAll('#leftItems .item');
+				const rightItems = document.querySelectorAll('#rightItems .item');
+				
+				leftItems.forEach(item => {
+					item.classList.remove('paired', 'selected', 'completed');
+					item.onclick = () => selectItem(item, 'left');
+				});
+				
+				rightItems.forEach(item => {
+					item.classList.remove('paired', 'selected', 'completed');
+					item.onclick = () => selectItem(item, 'right');
+				});
+
+				// 清除所有配對槽並重新綁定點擊事件
+				const slots = document.querySelectorAll('.pair-slot');
+				slots.forEach((slot, index) => {
+					slot.classList.remove('filled', 'correct', 'incorrect');
+					slot.classList.add('empty');
+					slot.innerHTML = '';
+					slot.onclick = () => placePair(index);
+				});
+
+				// 重設選擇狀態
+				selectedLeft = null;
+				selectedRight = null;
+				pairs = [null, null, null];
+
+				// 重設檢查按鈕
+				const checkButton = document.querySelector('.check-button');
+				checkButton.textContent = '檢查';
+				checkButton.onclick = checkAnswers;
+
+				// 重新洗牌
+				shuffleItems();
+				
+				// 重新啟動初始提示
+				setTimeout(startInitialHints, 500);
+			}
+		}
+
+		function shuffleItems() {
+			const leftItems = document.getElementById('leftItems');
+			const rightItems = document.getElementById('rightItems');
+			
+			// 洗牌左側項目
+			Array.from(leftItems.children)
+				.sort(() => Math.random() - 0.5)
+				.forEach(item => {
+					leftItems.appendChild(item);
+					// 確保點擊事件存在
+					item.onclick = () => selectItem(item, 'left');
+				});
+			
+			// 洗牌右側項目
+			Array.from(rightItems.children)
+				.sort(() => Math.random() - 0.5)
+				.forEach(item => {
+					rightItems.appendChild(item);
+					// 確保點擊事件存在
+					item.onclick = () => selectItem(item, 'right');
+				});
+		}
+
+		document.addEventListener('DOMContentLoaded', () => {
+			// 確保所有配對槽都有正確的點擊事件
+			const slots = document.querySelectorAll('.pair-slot');
+			slots.forEach((slot, index) => {
+				slot.onclick = () => placePair(index);
+			});
+			
+			initializeGame();
+		});
     </script>
 </body>
 </html>
