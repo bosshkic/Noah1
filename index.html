@@ -332,8 +332,8 @@
                     },
                     {
                         left: "義人蒙恩",
-                        right: "挪亞「在神眼前蒙恩」被稱為「義人、完全人」",
-                        rightWithVerses: "(6:8) 挪亞「在神眼前蒙恩」；(6:9，7:1) 被稱為「義人、完全人」"
+                        right: "挪亞在耶和華眼前蒙恩；被稱為「義人、完全人」與　神同行",
+                        rightWithVerses: "(6:8) 挪亞在耶和華眼前蒙恩；(6:9，7:1) 被稱為「義人、完全人」與　神同行"
                     }
                 ]
             },
@@ -427,6 +427,10 @@
 		let pairs = [null, null, null];
 
 		function initializeGame() {
+			setTimeout(() => {
+				window.scrollTo(0, 0);
+			}, 100);
+
 			// 更新標題
 			document.querySelector('.title-container h2').textContent = allQuestions[currentQuestion].title;
 			
@@ -447,6 +451,8 @@
 				leftItems.innerHTML += `<div class="item" onclick="selectItem(this, 'left')">${pair.left}</div>`;
 				rightItems.innerHTML += `<div class="item" onclick="selectItem(this, 'right')">${pair.right}</div>`;
 			});
+			
+			
 		}
 
 		function startInitialHints() {			
@@ -455,6 +461,8 @@
 			
 			document.getElementById('rightColumn').classList.remove('flash-animation');
 			document.getElementById('rightHint').classList.remove('show');
+			
+			
 		}
 
 		function selectItem(element, side) {
@@ -750,6 +758,8 @@
 
 		function resetGame() {
 			if (confirm('確定要重設當前題目嗎？')) {
+				window.scrollTo(0, 0);
+				
 				// 重新啟用所有項目的點擊事件
 				const leftItems = document.querySelectorAll('#leftItems .item');
 				const rightItems = document.querySelectorAll('#rightItems .item');
