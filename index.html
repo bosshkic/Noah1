@@ -503,57 +503,83 @@
 		}
 
 		function placePair(index) {
-			document.getElementById('pairHint').classList.remove('show');
-			
-			if (!selectedLeft || !selectedRight) return;
+			const resetInitialState = () => {
+				document.getElementById('pairHint').classList.remove('show');
+				
+				if (!selectedLeft || !selectedRight) return false;
 
-			document.querySelectorAll('.pair-slot').forEach(slot => {
-				slot.classList.remove('highlight');
-			});
-
-			if (pairs[index]) {
-				pairs[index].left.classList.remove('paired');
-				pairs[index].right.classList.remove('paired');
-			}
-
-			pairs[index] = {
-				left: selectedLeft,
-				right: selectedRight
+				document.querySelectorAll('.pair-slot').forEach(slot => {
+					slot.classList.remove('highlight');
+				});
+				
+				return true;
 			};
 
-			const slot = document.querySelectorAll('.pair-slot')[index];
-			slot.innerHTML = `
-				<div>${selectedLeft.textContent}</div>
-				<div style="margin-top: 10px; color: #666;">⭐</div>
-				<div>${selectedRight.textContent}</div>
-			`;
-			slot.classList.remove('empty');
-			slot.classList.add('filled');
+			const clearPreviousPair = () => {
+				if (pairs[index]) {
+					pairs[index].left.classList.remove('paired');
+					pairs[index].right.classList.remove('paired');
+				}
+			};
 
-			selectedLeft.classList.add('paired');
-			selectedRight.classList.add('paired');
+			const setupNewPair = () => {
+				pairs[index] = {
+					left: selectedLeft,
+					right: selectedRight
+				};
 
-			selectedLeft.classList.remove('selected');
-			selectedRight.classList.remove('selected');
-			selectedLeft = null;
-			selectedRight = null;
+				const slot = document.querySelectorAll('.pair-slot')[index];
+				slot.innerHTML = `
+					<div>${selectedLeft.textContent}</div>
+					<div style="margin-top: 10px; color: #666;">⭐</div>
+					<div>${selectedRight.textContent}</div>
+				`;
+				slot.classList.remove('empty');
+				slot.classList.add('filled');
+			};
 
-			// 檢查是否所有slot都已填滿
-			const allSlotsFilled = pairs.every(pair => pair !== null);
-			
-			if (!allSlotsFilled) {
-				// 如果還未全部填滿，重新啟動左側提示
-				document.getElementById('leftColumn').classList.add('flash-animation');
-				document.getElementById('leftHint').classList.add('show');
+			const updateSelectedItems = () => {
+				selectedLeft.classList.add('paired');
+				selectedRight.classList.add('paired');
+
+				selectedLeft.classList.remove('selected');
+				selectedRight.classList.remove('selected');
+				selectedLeft = null;
+				selectedRight = null;
+			};
+
+			const checkAndHandleSlots = () => {
+				// 檢查是否所有slot都已填滿
+				const allSlotsFilled = pairs.every(pair => pair !== null);
 				
-				// 確保右側提示是關閉的
-				document.getElementById('rightColumn').classList.remove('flash-animation');
-				document.getElementById('rightHint').classList.remove('show');
-			} else {
-				// 如果已全部填滿，關閉所有提示
-				document.getElementById('leftColumn').classList.remove('flash-animation');
-				document.getElementById('leftHint').classList.remove('show');
-			}
+				if (!allSlotsFilled) {
+					// 如果還未全部填滿，重新啟動左側提示
+					document.getElementById('leftColumn').classList.add('flash-animation');
+					document.getElementById('leftHint').classList.add('show');
+					
+					// 滾動到頂部
+					window.scrollTo({
+						top: 0,
+						behavior: 'smooth'
+					});
+					
+					// 確保右側提示是關閉的
+					document.getElementById('rightColumn').classList.remove('flash-animation');
+					document.getElementById('rightHint').classList.remove('show');
+				} else {
+					// 如果已全部填滿，關閉所有提示
+					document.getElementById('leftColumn').classList.remove('flash-animation');
+					document.getElementById('leftHint').classList.remove('show');
+				}
+			};
+
+			// 主要執行流程
+			if (!resetInitialState()) return;
+			
+			clearPreviousPair();
+			setupNewPair();
+			updateSelectedItems();
+			checkAndHandleSlots();			
 		}
 
 		function checkAnswers() {
