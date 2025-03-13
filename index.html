@@ -126,7 +126,7 @@
 		}
 
 		.pair-slot.filled {
-			border: 2px solid #3b82f6;
+			border: 2px solid #bfdbfe;
 			background-color: white;
 			padding: 10px;
 		}
@@ -275,7 +275,7 @@
 
     <button class="button reset-button" onclick="resetGame()">重設</button>
 
-	<div id="leftHint" class="hint-text">👇🏻 請先選擇一個概況</div>
+	<div id="leftHint" class="hint-text">👇🏻 按聖經先選擇一個最先發生的情節概況</div>
     <div class="column" id="leftColumn">
         <div class="column-header">概況</div>
         <div id="leftItems">
@@ -291,7 +291,7 @@
         </div>
     </div>
 
-    <div id="pairHint" class="hint-text">⬇️ 請選擇一個位置存放而配合順序</div>
+    <div id="pairHint" class="hint-text">⬇️ 依順序放置到以下</div>
     <div id="pairContainer">
         <div class="pair-container">
             <div class="pair-number">1</div>
@@ -449,12 +449,12 @@
 			});
 		}
 
-		function startInitialHints() {
-			const leftColumn = document.getElementById('leftColumn');
-			const leftHint = document.getElementById('leftHint');
+		function startInitialHints() {			
+			document.getElementById('leftColumn').classList.add('flash-animation');
+			document.getElementById('leftHint').classList.add('show');
 			
-			leftColumn.classList.add('flash-animation');
-			leftHint.classList.add('show');
+			document.getElementById('rightColumn').classList.remove('flash-animation');
+			document.getElementById('rightHint').classList.remove('show');
 		}
 
 		function selectItem(element, side) {
@@ -531,6 +531,23 @@
 			selectedRight.classList.remove('selected');
 			selectedLeft = null;
 			selectedRight = null;
+
+			// 檢查是否所有slot都已填滿
+			const allSlotsFilled = pairs.every(pair => pair !== null);
+			
+			if (!allSlotsFilled) {
+				// 如果還未全部填滿，重新啟動左側提示
+				document.getElementById('leftColumn').classList.add('flash-animation');
+				document.getElementById('leftHint').classList.add('show');
+				
+				// 確保右側提示是關閉的
+				document.getElementById('rightColumn').classList.remove('flash-animation');
+				document.getElementById('rightHint').classList.remove('show');
+			} else {
+				// 如果已全部填滿，關閉所有提示
+				document.getElementById('leftColumn').classList.remove('flash-animation');
+				document.getElementById('leftHint').classList.remove('show');
+			}
 		}
 
 		function checkAnswers() {
