@@ -315,111 +315,126 @@
 		<button class="button check-button" onclick="location.reload()">重新開始</button>
 	</div>
     <script>
-        // 題目管理
-        const allQuestions = {
-            'A': {
-                title: "挪亞洪水 - A.審判宣告(6:1-6:13)",
-                pairs: [
-                    {
-                        left: "世人敗壞",
-                        right: "人終日心裡思念的，盡都是邪惡；耶和華後悔造人，心中憂傷；地充滿強暴",
-                        rightWithVerses: "(6:5) 人終日心裡思念的，盡都是邪惡 (6:6) 耶和華後悔造人，心中憂傷；(6:11-12) 地充滿強暴"
-                    },
-                    {
-                        left: "滅世審判",
-                        right: "神的靈離開，給與120年悔改期；宣告洪水毀滅全地",
-                        rightWithVerses: "(6:3) 神的靈離開，給與120年悔改期；(6:13，7:4) 宣告洪水毀滅全地"
-                    },
-                    {
-                        left: "義人蒙恩",
-                        right: "挪亞在耶和華眼前蒙恩；被稱為「義人、完全人」與　神同行",
-                        rightWithVerses: "(6:8) 挪亞在耶和華眼前蒙恩；(6:9，7:1) 被稱為「義人、完全人」與　神同行"
-                    }
-                ]
-            },
-            'B': {
-                title: "挪亞洪水 - B.救恩預備(6:14-7:16)",
-                pairs: [
-                    {
-                        left: "方舟建造",
-                        right: "分房分層設計；具體尺寸與結構",
-                        rightWithVerses: "(6:14，6:16) 分房分層設計；(6:15-16) 具體尺寸與結構"
-                    },
-                    {
-                        left: "動物保存",
-                        right: "攜帶各類活物；潔淨的七公七母，不潔淨的一公一母；儲備糧食",
-                        rightWithVerses: "(6:19-20) 攜帶各類活物；(7:2-3) 潔淨的七公七母，不潔淨的一公一母；(6:21) 儲備糧食"
-                    },
-                    {
-                        left: "最後呼召",
-                        right: "挪亞全家進入方舟；神親自關閉方舟門",
-                        rightWithVerses: "(7:1，7:13) 挪亞全家進入方舟；(7:16) 神親自關閉方舟門"
-                    }
-                ]
-            },
-            'C': {
-                title: "挪亞洪水 - C.審判執行(7:17-8:19)",
-                pairs: [
-                    {
-                        left: "洪水降臨",
-                        right: "天上淵源裂開；大水氾濫40晝夜",
-                        rightWithVerses: "(7:11) 天上淵源裂開；(7:12，17-20) 大水氾濫40晝夜"
-                    },
-                    {
-                        left: "全地滅絕",
-                        right: "凡有血肉的盡都死亡；水勢浩大150日",
-                        rightWithVerses: "(7:21-23) 凡有血肉的盡都死亡；(7:24) 水勢浩大150日"
-                    },
-                    {
-                        left: "水退記號",
-                        right: "鴿子與橄欖葉；鴿子不再返回",
-                        rightWithVerses: "(8:10-11) 鴿子與橄欖葉；8:12) 鴿子不再返回"
-                    }
-                ]
-            },
-            'D': {
-                title: "挪亞洪水 - D.約的確立(8:20-9:17)",
-                pairs: [
-                    {
-                        left: "出舟獻祭",
-                        right: "築壇獻燔祭；馨香之氣蒙神悅納；不再因人咒地（因為人從小時開始心中所想的都是邪惡的）",
-                        rightWithVerses: "(8:20) 築壇獻燔祭 (8:21) 馨香之氣蒙神悅納；不再因人咒地（因為人從小時開始心中所想的都是邪惡的）"
-                    },
-					{
-                        left: "頒佈命令",
-                        right: "賜福繁衍增多生養治理；允許食肉但禁食血；追討流人血者的罪",
-                        rightWithVerses: "(9:1，9:7) 賜福繁衍增多生養治理；(9:3-4) 允許食肉但禁食血；(9:5-6) 追討流人血者的罪"
-                    },
-                    {
-                        left: "永約應許",
-                        right: "不再以洪水滅世；彩虹之約",
-                        rightWithVerses: "(8:21-22，9:11) 不再以洪水滅世；(9:12-17) 彩虹之約"
-                    }
-                ]
-            },
-            'E': {
-                title: "挪亞洪水 - E.人性軟弱(9:18-9:29)",
-                pairs: [
-                    {
-                        left: "醉酒失態",
-                        right: "挪亞栽種葡萄園；醉酒赤身躺臥帳棚",
-                        rightWithVerses: "(9:20) 挪亞栽種葡萄園；(9:21) 醉酒赤身躺臥帳棚"
-                    },
-                    {
-                        left: "怎對待羞恥",
-                        right: "含「看見父親赤身」並宣揚；閃與雅弗「倒退遮蓋」",
-                        rightWithVerses: "(9:22) 含「看見父親赤身」並宣揚；(9:23) 閃與雅弗「倒退遮蓋」"
-                    },
-                    {
-                        left: "咒詛與祝福",
-                        right: "迦南受咒詛；閃與雅弗蒙福",
-                        rightWithVerses: "(9:25) 迦南受咒詛；(9:26-27) 閃與雅弗蒙福"
-                    }
-                ]
-            }
-        };
+        // 編碼/解碼函數
+		function encode(text) {
+			return encodeURIComponent(text);
+		}
 
-        // 當前題目追踪
+		function decode(encoded) {
+			try {
+				if (!encoded) return '';
+				return decodeURIComponent(encoded);
+			} catch (e) {
+				console.error('Decoding error:', e);
+				return encoded;
+			}
+		}
+
+		// 加密後的題目資料
+		const allQuestions = {
+			'A': {
+				title: "%E6%8C%AA%E4%BA%9E%E6%B4%AA%E6%B0%B4%20-%20A.%E5%AF%A9%E5%88%A4%E5%AE%A3%E5%91%8A(6%3A1-6%3A13)",
+				pairs: [
+					{
+						left: "%E4%B8%96%E4%BA%BA%E6%95%97%E5%A3%9E",
+						right: "%E4%BA%BA%E7%B5%82%E6%97%A5%E5%BF%83%E8%A3%A1%E6%80%9D%E5%BF%B5%E7%9A%84%EF%BC%8C%E7%9B%A1%E9%83%BD%E6%98%AF%E9%82%AA%E6%83%A1%EF%BC%9B%E8%80%B6%E5%92%8C%E8%8F%AF%E5%BE%8C%E6%82%94%E9%80%A0%E4%BA%BA%EF%BC%8C%E5%BF%83%E4%B8%AD%E6%86%82%E5%82%B7%EF%BC%9B%E5%9C%B0%E5%85%85%E6%BB%BF%E5%BC%B7%E6%9A%B4",
+						rightWithVerses: "(6%3A5)%20%E4%BA%BA%E7%B5%82%E6%97%A5%E5%BF%83%E8%A3%A1%E6%80%9D%E5%BF%B5%E7%9A%84%EF%BC%8C%E7%9B%A1%E9%83%BD%E6%98%AF%E9%82%AA%E6%83%A1%20(6%3A6)%20%E8%80%B6%E5%92%8C%E8%8F%AF%E5%BE%8C%E6%82%94%E9%80%A0%E4%BA%BA%EF%BC%8C%E5%BF%83%E4%B8%AD%E6%86%82%E5%82%B7%EF%BC%9B(6%3A11-12)%20%E5%9C%B0%E5%85%85%E6%BB%BF%E5%BC%B7%E6%9A%B4"
+					},
+					{
+						left: "%E6%BB%85%E4%B8%96%E5%AF%A9%E5%88%A4",
+						right: "%E7%A5%9E%E7%9A%84%E9%9D%88%E9%9B%A2%E9%96%8B%EF%BC%8C%E7%B5%A6%E8%88%87120%E5%B9%B4%E6%82%94%E6%94%B9%E6%9C%9F%EF%BC%9B%E5%AE%A3%E5%91%8A%E6%B4%AA%E6%B0%B4%E6%AF%80%E6%BB%85%E5%85%A8%E5%9C%B0",
+						rightWithVerses: "(6%3A3)%20%E7%A5%9E%E7%9A%84%E9%9D%88%E9%9B%A2%E9%96%8B%EF%BC%8C%E7%B5%A6%E8%88%87120%E5%B9%B4%E6%82%94%E6%94%B9%E6%9C%9F%EF%BC%9B(6%3A7%EF%BC%8C6%3A13%EF%BC%8C7%3A4)%20%E5%AE%A3%E5%91%8A%E6%B4%AA%E6%B0%B4%E6%AF%80%E6%BB%85%E5%85%A8%E5%9C%B0"
+					},
+					{
+						left: "%E7%BE%A9%E4%BA%BA%E8%92%99%E6%81%A9",
+						right: "%E6%8C%AA%E4%BA%9E%E5%9C%A8%E8%80%B6%E5%92%8C%E8%8F%AF%E7%9C%BC%E5%89%8D%E8%92%99%E6%81%A9%EF%BC%9B%E8%A2%AB%E7%A8%B1%E7%82%BA%E3%80%8C%E7%BE%A9%E4%BA%BA%E3%80%81%E5%AE%8C%E5%85%A8%E4%BA%BA%E3%80%8D%E8%88%87%E3%80%80%E7%A5%9E%E5%90%8C%E8%A1%8C",
+						rightWithVerses: "(6%3A8)%20%E6%8C%AA%E4%BA%9E%E5%9C%A8%E8%80%B6%E5%92%8C%E8%8F%AF%E7%9C%BC%E5%89%8D%E8%92%99%E6%81%A9%EF%BC%9B(6%3A9%EF%BC%8C7%3A1)%20%E8%A2%AB%E7%A8%B1%E7%82%BA%E3%80%8C%E7%BE%A9%E4%BA%BA%E3%80%81%E5%AE%8C%E5%85%A8%E4%BA%BA%E3%80%8D%E8%88%87%E3%80%80%E7%A5%9E%E5%90%8C%E8%A1%8C"
+					}
+				]
+			},
+			'B': {
+				title: "%E6%8C%AA%E4%BA%9E%E6%B4%AA%E6%B0%B4%20-%20B.%E6%95%91%E6%81%A9%E9%A0%90%E5%82%99(6%3A14-7%3A16)",
+				pairs: [
+					{
+						left: "%E6%96%B9%E8%88%9F%E5%BB%BA%E9%80%A0",
+						right: "%E5%88%86%E6%88%BF%E5%88%86%E5%B1%A4%E8%A8%AD%E8%A8%88%EF%BC%9B%E5%85%B7%E9%AB%94%E5%B0%BA%E5%AF%B8%E8%88%87%E7%B5%90%E6%A7%8B",
+						rightWithVerses: "(6%3A14%EF%BC%8C6%3A16)%20%E5%88%86%E6%88%BF%E5%88%86%E5%B1%A4%E8%A8%AD%E8%A8%88%EF%BC%9B(6%3A15-16)%20%E5%85%B7%E9%AB%94%E5%B0%BA%E5%AF%B8%E8%88%87%E7%B5%90%E6%A7%8B"
+					},
+					{
+						left: "%E7%94%9F%E5%91%BD%E4%BF%9D%E5%AD%98",
+						right: "%E6%94%9C%E5%B8%B6%E5%90%84%E9%A1%9E%E6%B4%BB%E7%89%A9%EF%BC%9B%E6%BD%94%E6%B7%A8%E7%9A%84%E4%B8%83%E5%85%AC%E4%B8%83%E6%AF%8D%EF%BC%8C%E4%B8%8D%E6%BD%94%E6%B7%A8%E7%9A%84%E4%B8%80%E5%85%AC%E4%B8%80%E6%AF%8D%EF%BC%9B%E5%84%B2%E5%82%99%E7%B3%A7%E9%A3%9F",
+						rightWithVerses: "(6%3A19-20)%20%E6%94%9C%E5%B8%B6%E5%90%84%E9%A1%9E%E6%B4%BB%E7%89%A9%EF%BC%9B(7%3A2-3)%20%E6%BD%94%E6%B7%A8%E7%9A%84%E4%B8%83%E5%85%AC%E4%B8%83%E6%AF%8D%EF%BC%8C%E4%B8%8D%E6%BD%94%E6%B7%A8%E7%9A%84%E4%B8%80%E5%85%AC%E4%B8%80%E6%AF%8D%EF%BC%9B(6%3A21)%20%E5%84%B2%E5%82%99%E7%B3%A7%E9%A3%9F"
+					},
+					{
+						left: "%E6%9C%80%E5%BE%8C%E5%91%BC%E5%8F%AC",
+						right: "%E6%8C%AA%E4%BA%9E%E5%85%A8%E5%AE%B6%E9%80%B2%E5%85%A5%E6%96%B9%E8%88%9F%EF%BC%9B%E7%A5%9E%E8%A6%AA%E8%87%AA%E9%97%9C%E9%96%89%E6%96%B9%E8%88%9F%E7%9A%84%E9%96%80",
+						rightWithVerses: "(7%3A1%EF%BC%8C7%3A13)%20%E6%8C%AA%E4%BA%9E%E5%85%A8%E5%AE%B6%E9%80%B2%E5%85%A5%E6%96%B9%E8%88%9F%EF%BC%9B(7%3A16)%20%E7%A5%9E%E8%A6%AA%E8%87%AA%E9%97%9C%E9%96%89%E6%96%B9%E8%88%9F%E7%9A%84%E9%96%80"
+					}
+				]
+			},
+			'C': {
+				title: "%E6%8C%AA%E4%BA%9E%E6%B4%AA%E6%B0%B4%20-%20C.%E5%AF%A9%E5%88%A4%E5%9F%B7%E8%A1%8C(7%3A17-8%3A19)",
+				pairs: [
+					{
+						left: "%E6%B4%AA%E6%B0%B4%E9%99%8D%E8%87%A8",
+						right: "%E5%A4%A9%E4%B8%8A%E6%B7%B5%E6%BA%90%E8%A3%82%E9%96%8B%EF%BC%9B%E5%A4%A7%E6%B0%B4%E6%B0%BE%E6%BF%AB40%E6%99%9D%E5%A4%9C",
+						rightWithVerses: "(7%3A11)%20%E5%A4%A9%E4%B8%8A%E6%B7%B5%E6%BA%90%E8%A3%82%E9%96%8B%EF%BC%9B(7%3A12%EF%BC%8C17-20)%20%E5%A4%A7%E6%B0%B4%E6%B0%BE%E6%BF%AB40%E6%99%9D%E5%A4%9C"
+					},
+					{
+						left: "%E5%85%A8%E5%9C%B0%E6%BB%85%E7%B5%95",
+						right: "%E5%87%A1%E6%9C%89%E8%A1%80%E8%82%89%E7%9A%84%E7%9B%A1%E9%83%BD%E6%AD%BB%E4%BA%A1%EF%BC%9B%E6%B0%B4%E5%8B%A2%E6%B5%A9%E5%A4%A7150%E6%97%A5",
+						rightWithVerses: "(7%3A21-23)%20%E5%87%A1%E6%9C%89%E8%A1%80%E8%82%89%E7%9A%84%E7%9B%A1%E9%83%BD%E6%AD%BB%E4%BA%A1%EF%BC%9B(7%3A24)%20%E6%B0%B4%E5%8B%A2%E6%B5%A9%E5%A4%A7150%E6%97%A5"
+					},
+					{
+						left: "%E6%B0%B4%E9%80%80%E8%A8%98%E8%99%9F",
+						right: "%E9%B4%BF%E5%AD%90%E8%88%87%E6%A9%84%E6%AC%96%E8%91%89%EF%BC%9B%E9%B4%BF%E5%AD%90%E4%B8%8D%E5%86%8D%E8%BF%94%E5%9B%9E",
+						rightWithVerses: "(8%3A10-11)%20%E9%B4%BF%E5%AD%90%E8%88%87%E6%A9%84%E6%AC%96%E8%91%89%EF%BC%9B8%3A12)%20%E9%B4%BF%E5%AD%90%E4%B8%8D%E5%86%8D%E8%BF%94%E5%9B%9E"
+					}
+				]
+			},
+			'D': {
+				title: "%E6%8C%AA%E4%BA%9E%E6%B4%AA%E6%B0%B4%20-%20D.%E6%B0%B8%E7%B4%84%E7%A2%BA%E7%AB%8B(8%3A20-9%3A17)",
+				pairs: [
+					{
+						left: "%E5%87%BA%E8%88%9F%E7%8D%BB%E7%A5%AD",
+						right: "%E7%AF%89%E5%A3%87%E7%8D%BB%E7%87%94%E7%A5%AD%EF%BC%9B%E9%A6%A8%E9%A6%99%E4%B9%8B%E6%B0%A3%E8%92%99%E7%A5%9E%E6%82%85%E7%B4%8D%EF%BC%9B%E4%B8%8D%E5%86%8D%E5%9B%A0%E4%BA%BA%E5%92%92%E5%9C%B0%EF%BC%88%E5%9B%A0%E7%82%BA%E4%BA%BA%E5%BE%9E%E5%B0%8F%E6%99%82%E9%96%8B%E5%A7%8B%E5%BF%83%E4%B8%AD%E6%89%80%E6%83%B3%E7%9A%84%E9%83%BD%E6%98%AF%E9%82%AA%E6%83%A1%E7%9A%84%EF%BC%89",
+						rightWithVerses: "(8%3A20)%20%E7%AF%89%E5%A3%87%E7%8D%BB%E7%87%94%E7%A5%AD%20(8%3A21)%20%E9%A6%A8%E9%A6%99%E4%B9%8B%E6%B0%A3%E8%92%99%E7%A5%9E%E6%82%85%E7%B4%8D%EF%BC%9B%E4%B8%8D%E5%86%8D%E5%9B%A0%E4%BA%BA%E5%92%92%E5%9C%B0%EF%BC%88%E5%9B%A0%E7%82%BA%E4%BA%BA%E5%BE%9E%E5%B0%8F%E6%99%82%E9%96%8B%E5%A7%8B%E5%BF%83%E4%B8%AD%E6%89%80%E6%83%B3%E7%9A%84%E9%83%BD%E6%98%AF%E9%82%AA%E6%83%A1%E7%9A%84%EF%BC%89"
+					},
+					{
+						left: "%E9%A0%92%E4%BD%88%E5%91%BD%E4%BB%A4",
+						right: "%E8%B3%9C%E7%A6%8F%E7%B9%81%E8%A1%8D%E5%A2%9E%E5%A4%9A%E7%94%9F%E9%A4%8A%E6%B2%BB%E7%90%86%EF%BC%9B%E5%85%81%E8%A8%B1%E9%A3%9F%E8%82%89%E4%BD%86%E7%A6%81%E9%A3%9F%E8%A1%80%EF%BC%9B%E8%BF%BD%E8%A8%8E%E6%B5%81%E4%BA%BA%E8%A1%80%E8%80%85%E7%9A%84%E7%BD%AA",
+						rightWithVerses: "(9%3A1%EF%BC%8C9%3A7)%20%E8%B3%9C%E7%A6%8F%E7%B9%81%E8%A1%8D%E5%A2%9E%E5%A4%9A%E7%94%9F%E9%A4%8A%E6%B2%BB%E7%90%86%EF%BC%9B(9%3A3-4)%20%E5%85%81%E8%A8%B1%E9%A3%9F%E8%82%89%E4%BD%86%E7%A6%81%E9%A3%9F%E8%A1%80%EF%BC%9B(9%3A5-6)%20%E8%BF%BD%E8%A8%8E%E6%B5%81%E4%BA%BA%E8%A1%80%E8%80%85%E7%9A%84%E7%BD%AA"
+					},
+					{
+						left: "%E6%B0%B8%E7%B4%84%E6%87%89%E8%A8%B1",
+						right: "%E4%B8%8D%E5%86%8D%E4%BB%A5%E6%B4%AA%E6%B0%B4%E6%BB%85%E4%B8%96%EF%BC%9B%E5%BD%A9%E8%99%B9%E4%B9%8B%E7%B4%84",
+						rightWithVerses: "(8%3A21-22%EF%BC%8C9%3A11)%20%E4%B8%8D%E5%86%8D%E4%BB%A5%E6%B4%AA%E6%B0%B4%E6%BB%85%E4%B8%96%EF%BC%9B(9%3A12-17)%20%E5%BD%A9%E8%99%B9%E4%B9%8B%E7%B4%84"
+					}
+				]
+			},
+			'E': {
+				title: "%E6%8C%AA%E4%BA%9E%E6%B4%AA%E6%B0%B4%20-%20E.%E4%BA%BA%E6%80%A7%E8%BB%9F%E5%BC%B1(9%3A18-9%3A29)",
+				pairs: [
+					{
+						left: "%E9%86%89%E9%85%92%E5%A4%B1%E6%85%8B",
+						right: "%E6%8C%AA%E4%BA%9E%E6%A0%BD%E7%A8%AE%E8%91%A1%E8%90%84%E5%9C%92%EF%BC%9B%E9%86%89%E9%85%92%E8%B5%A4%E8%BA%AB%E8%BA%BA%E8%87%A5%E5%B8%B3%E6%A3%9A",
+						rightWithVerses: "(9%3A20)%20%E6%8C%AA%E4%BA%9E%E6%A0%BD%E7%A8%AE%E8%91%A1%E8%90%84%E5%9C%92%EF%BC%9B(9%3A21)%20%E9%86%89%E9%85%92%E8%B5%A4%E8%BA%AB%E8%BA%BA%E8%87%A5%E5%B8%B3%E6%A3%9A"
+					},
+					{
+						left: "%E6%80%8E%E5%BE%85%E7%BE%9E%E6%81%A5",
+						right: "%E5%90%AB%E3%80%8C%E7%9C%8B%E8%A6%8B%E7%88%B6%E8%A6%AA%E8%B5%A4%E8%BA%AB%E3%80%8D%E4%B8%A6%E5%AE%A3%E6%8F%9A%EF%BC%9B%E9%96%83%E8%88%87%E9%9B%85%E5%BC%97%E3%80%8C%E5%80%92%E9%80%80%E9%81%AE%E8%93%8B%E3%80%8D",
+						rightWithVerses: "(9%3A22)%20%E5%90%AB%E3%80%8C%E7%9C%8B%E8%A6%8B%E7%88%B6%E8%A6%AA%E8%B5%A4%E8%BA%AB%E3%80%8D%E4%B8%A6%E5%AE%A3%E6%8F%9A%EF%BC%9B(9%3A23)%20%E9%96%83%E8%88%87%E9%9B%85%E5%BC%97%E3%80%8C%E5%80%92%E9%80%80%E9%81%AE%E8%93%8B%E3%80%8D"
+					},
+					{
+						left: "%E5%92%92%E8%A9%9B%E8%88%87%E7%A5%9D%E7%A6%8F",
+						right: "%E5%90%AB%E7%9A%84%E5%85%92%E5%AD%97%E8%BF%A6%E5%8D%97%E5%8F%97%E5%92%92%E8%A9%9B%EF%BC%9B%E9%96%83%E8%88%87%E9%9B%85%E5%BC%97%E8%92%99%E7%A6%8F",
+						rightWithVerses: "(9%3A25)%20%E5%90%AB%E7%9A%84%E5%85%92%E5%AD%97%E8%BF%A6%E5%8D%97%E5%8F%97%E5%92%92%E8%A9%9B%EF%BC%9B(9%3A26-27)%20%E9%96%83%E8%88%87%E9%9B%85%E5%BC%97%E8%92%99%E7%A6%8F"
+					}
+				]
+			}
+		};
+
+		// 當前題目追踪
 		let currentQuestion = 'A';  // 固定從 A 開始
 		let correctPairs = allQuestions[currentQuestion].pairs;
 		let selectedLeft = null;
@@ -431,8 +446,8 @@
 				window.scrollTo(0, 0);
 			}, 100);
 
-			// 更新標題
-			document.querySelector('.title-container h2').textContent = allQuestions[currentQuestion].title;
+			// 更新標題時解碼
+			document.querySelector('.title-container h2').textContent = decode(allQuestions[currentQuestion].title);
 			
 			// 初始化項目
 			initializeItems();
@@ -448,11 +463,10 @@
 			rightItems.innerHTML = '';
 			
 			correctPairs.forEach(pair => {
-				leftItems.innerHTML += `<div class="item" onclick="selectItem(this, 'left')">${pair.left}</div>`;
-				rightItems.innerHTML += `<div class="item" onclick="selectItem(this, 'right')">${pair.right}</div>`;
-			});
-			
-			
+				// 添加項目時解碼
+				leftItems.innerHTML += `<div class="item" onclick="selectItem(this, 'left')">${decode(pair.left)}</div>`;
+				rightItems.innerHTML += `<div class="item" onclick="selectItem(this, 'right')">${decode(pair.right)}</div>`;
+			});			
 		}
 
 		function startInitialHints() {			
@@ -537,6 +551,7 @@
 				};
 
 				const slot = document.querySelectorAll('.pair-slot')[index];
+				// 不需要encode/decode因為已經是解碼後的文本
 				slot.innerHTML = `
 					<div>${selectedLeft.textContent}</div>
 					<div style="margin-top: 10px; color: #666;">⭐</div>
@@ -607,8 +622,8 @@
 				}
 
 				const isCorrect = 
-					pair.left.textContent === correctPairs[index].left && 
-					pair.right.textContent === correctPairs[index].right;
+					pair.left.textContent === decode(correctPairs[index].left) && 
+					pair.right.textContent === decode(correctPairs[index].right);
 
 				const slot = document.querySelectorAll('.pair-slot')[index];
 				
@@ -627,7 +642,7 @@
 					slot.innerHTML = `
 						<div>${pair.left.textContent}</div>
 						<div style="margin: 10px 0; color: #666;">⭐</div>
-						<div>${correctPairs[index].rightWithVerses}</div>
+						<div>${decode(correctPairs[index].rightWithVerses)}</div>
 					`;
 				});
 
@@ -670,15 +685,15 @@
 						const section = document.createElement('div');
 						section.className = 'summary-section';
 						
-						const subtitle = question.title.split(' - ')[1];
+						const subtitle = decode(question.title).split(' - ')[1];
 						
 						section.innerHTML = `
 							<div class="summary-section-title">${subtitle}</div>
 							${question.pairs.map(pair => `
 								<div class="summary-pair">
-									<div class="summary-pair-left">${pair.left}</div>
+									<div class="summary-pair-left">${decode(pair.left)}</div>
 									<div class="summary-pair-arrow">↓</div>
-									<div class="summary-pair-right">${pair.rightWithVerses}</div>
+									<div class="summary-pair-right">${decode(pair.rightWithVerses)}</div>
 								</div>
 							`).join('')}
 						`;
@@ -695,7 +710,7 @@
 						behavior: 'instant'
 					});
 
-					checkButton.textContent = '全答對了';
+					checkButton.textContent = '全答對了！';
 					checkButton.disabled = true;
 					checkButton.onclick = null;
 				} else {
@@ -723,7 +738,7 @@
 							document.getElementById('rightItems').innerHTML = '';
 
 							// 更新標題
-							document.querySelector('.title-container h2').textContent = allQuestions[currentQuestion].title;
+							document.querySelector('.title-container h2').textContent = decode(allQuestions[currentQuestion].title);
 
 							// 重設所有配對槽
 							const slots = document.querySelectorAll('.pair-slot');
