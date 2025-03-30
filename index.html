@@ -6,11 +6,22 @@
     <title>Noah</title>
     <style>
         body {
-			background-color: #f5f5f5;
+			/*background-color: #f5f5f5;*/
 			font-family: Arial, sans-serif;
 			margin: 0;
 			padding: 20px;
 			min-height: 100vh;
+		}
+		
+		.bg-image {
+			position: absolute;
+			/*top: 0;*/
+			/*left: 0;*/
+			width: 100%;
+			height: 10%;
+			z-index: -1;
+			object-fit: unset;  /* 圖片會自動縮放填滿 */
+			opacity: 30%;
 		}
 
 		.title-container {
@@ -269,6 +280,8 @@
     </style>
 </head>
 <body>
+	<img src="bg.jpg" class="bg-image">
+	
     <div class="title-container">
         <h2>Noah</h2>
     </div>
