@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Responsive Game</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background: #f0f0f0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* 遊戲容器 */
+    .game-container {
+      position: relative;
+      width: 100vw; /* 滿屏寬度 */
+      height: 56.25vw; /* 根據背景圖比例 (16:9) 設定高度 */
+      max-width: 1200px; /* 最大寬度限制 */
+      background: url('uploaded_image.png') no-repeat center center;
+      background-size: cover;
+    }
+
+    /* 卡片樣式 */
+    .draggable {
+      position: absolute;
+      width: 8%; /* 卡片寬度相對遊戲容器的比例 */
+      padding: 10px;
+      text-align: center;
+      background-color: #90be6d;
+      color: white;
+      font-weight: bold;
+      border-radius: 5px;
+      cursor: pointer;
+      touch-action: none;
+      transition: transform 0.3s;
+    }
+
+    /* 放置區域 */
+    .drop-zone {
+      position: absolute;
+      width: 10%; /* 放置區域寬度相對遊戲容器的比例 */
+      height: 10%; /* 放置區域高度 */
+      border: 2px dashed rgba(255, 255, 255, 0.8);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    /* 放置成功的樣式 */
+    .drop-zone.correct {
+      border-color: #90be6d;
+      background-color: rgba(144, 190, 109, 0.8);
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <div class="game-container">
+    <!-- 卡片 -->
+    <div id="card1" class="draggable" style="top: 80%; left: 10%;">離開本國</div>
+    <div id="card2" class="draggable" style="top: 80%; left: 30%;">神的應許</div>
+    <div id="card3" class="draggable" style="top: 80%; left: 50%;">獻上燔祭</div>
+
+    <!-- 放置區域 -->
+    <div id="zone1" class="drop-zone" style="top: 70%; left: 5%;">放這裡</div>
+    <div id="zone2" class="drop-zone" style="top: 40%; left: 50%;">放這裡</div>
+    <div id="zone3" class="drop-zone" style="top: 70%; left: 85%;">放這裡</div>
+  </div>
+
+  <script>
+    let selectedCard = null;
+
+    // 為所有卡片添加點擊事件
+    document.querySelectorAll('.draggable').forEach(card => {
+      card.addEventListener('click', () => {
+        // 如果已選中，取消選中
+        if (selectedCard === card) {
+          card.style.transform = 'scale(1)';
+          selectedCard = null;
+        } else {
+          // 取消其他卡片選中狀態
+          document.querySelectorAll('.draggable').forEach(c => c.style.transform = 'scale(1)');
+          // 設置選中狀態
+          card.style.transform = 'scale(1.2)';
+          selectedCard = card;
+        }
+      });
+    });
+
+    // 為所有放置區域添加點擊事件
+    document.querySelectorAll('.drop-zone').forEach(zone => {
+      zone.addEventListener('click', () => {
+        if (selectedCard) {
+          // 檢查是否是正確的放置區域
+          if (
+            (selectedCard.id === 'card1' && zone.id === 'zone1') ||
+            (selectedCard.id === 'card2' && zone.id === 'zone3') ||
+            (selectedCard.id === 'card3' && zone.id === 'zone2')
+          ) {
+            zone.classList.add('correct');
+            zone.textContent = '放置成功！';
+            zone.appendChild(selectedCard); // 移動卡片到區域
+            selectedCard.style.transform = 'scale(1)'; // 重置縮放
+            selectedCard = null; // 清除選中狀態
+          } else {
+            alert('放置錯誤，請重試！');
+          }
+        }
+      });
+    });
+  </script>
+</body>
+</html>
