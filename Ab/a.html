@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>背景圖全屏遊戲</title>
+  <title>背景圖精準對齊遊戲</title>
   <style>
     body {
       margin: 0;
@@ -25,6 +25,40 @@
       aspect-ratio: 3 / 2; /* 根據背景圖比例 (3:2) 設置高度 */
       background: url('uploaded_image.png') no-repeat center center;
       background-size: contain; /* 確保背景圖完整顯示 */
+    }
+
+    /* 卡片樣式 */
+    .draggable {
+      position: absolute;
+      width: 10%; /* 初始卡片大小，稍後動態調整 */
+      padding: 5px;
+      text-align: center;
+      background-color: #90be6d;
+      color: white;
+      font-weight: bold;
+      border-radius: 5px;
+      cursor: pointer;
+      touch-action: none;
+      transition: transform 0.3s;
+    }
+
+    /* 放置區域 */
+    .drop-zone {
+      position: absolute;
+      border: 2px dashed rgba(255, 255, 255, 0.8);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    .drop-zone.correct {
+      border-color: #90be6d;
+      background-color: rgba(144, 190, 109, 0.8);
+      color: white;
     }
 
     /* 全屏按鈕 */
@@ -52,13 +86,103 @@
   <button class="fullscreen-btn" id="fullscreen-btn">全屏模式</button>
 
   <div class="game-container" id="game-container">
-    <!-- 遊戲內容 -->
-    <p style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: white;">遊戲內容在這裡</p>
+    <!-- 卡片 -->
+    <div id="card1" class="draggable">離開本國</div>
+    <div id="card2" class="draggable">神的應許</div>
+    <div id="card3" class="draggable">獻上燔祭</div>
+
+    <!-- 放置區域 -->
+    <div id="zone1" class="drop-zone"></div>
+    <div id="zone2" class="drop-zone"></div>
+    <div id="zone3" class="drop-zone"></div>
   </div>
 
   <script>
-    const fullscreenBtn = document.getElementById('fullscreen-btn');
     const gameContainer = document.getElementById('game-container');
+    const fullscreenBtn = document.getElementById('fullscreen-btn');
+    const zones = [
+      { id: 'zone1', top: 60, left: 5, width: 10, height: 10 }, // % 位置
+      { id: 'zone2', top: 35, left: 50, width: 10, height: 10 },
+      { id: 'zone3', top: 60, left: 85, width: 10, height: 10 },
+    ];
+    const cards = [
+      { id: 'card1', text: '離開本國', zoneId: 'zone1' },
+      { id: 'card2', text: '神的應許', zoneId: 'zone3' },
+      { id: 'card3', text: '獻上燔祭', zoneId: 'zone2' },
+    ];
+
+    let selectedCard = null;
+
+    // 初始化放置區域
+    function initZones() {
+      zones.forEach(zone => {
+        const el = document.getElementById(zone.id);
+        const { top, left, width, height } = zone;
+
+        // 根據背景圖的比例設置放置區域
+        el.style.top = `${top}%`;
+        el.style.left = `${left}%`;
+        el.style.width = `${width}%`;
+        el.style.height = `${height}%`;
+      });
+    }
+
+    // 初始化卡片
+    function initCards() {
+      cards.forEach((card, index) => {
+        const el = document.getElementById(card.id);
+
+        // 初始位置（底部排列）
+        el.style.top = `${80 + index * 5}%`;
+        el.style.left = `${10 + index * 20}%`;
+
+        el.addEventListener('click', () => {
+          if (selectedCard === el) {
+            el.style.transform = 'scale(1)';
+            selectedCard = null;
+          } else {
+            document.querySelectorAll('.draggable').forEach(c => c.style.transform = 'scale(1)');
+            el.style.transform = 'scale(1.2)';
+            selectedCard = el;
+          }
+        });
+      });
+    }
+
+    // 放置檢查
+    function initDropZones() {
+      document.querySelectorAll('.drop-zone').forEach(zone => {
+        zone.addEventListener('click', () => {
+          if (selectedCard) {
+            const card = cards.find(c => c.id === selectedCard.id);
+            if (card && card.zoneId === zone.id) {
+              zone.classList.add('correct');
+              zone.textContent = '放置成功！';
+              zone.appendChild(selectedCard);
+              selectedCard.style.transform = 'scale(1)';
+              selectedCard = null;
+            } else {
+              alert('放置錯誤，請重試！');
+            }
+          }
+        });
+      });
+    }
+
+    // 初始化遊戲
+    function initGame() {
+      initZones(); // 設置放置區域
+      initCards(); // 設置卡片
+      initDropZones(); // 設置放置邏輯
+    }
+
+    // 初始化
+    initGame();
+
+    // 當窗口大小改變時，重新初始化位置
+    window.addEventListener('resize', () => {
+      initZones();
+    });
 
     // 全屏模式切換
     fullscreenBtn.addEventListener('click', () => {
