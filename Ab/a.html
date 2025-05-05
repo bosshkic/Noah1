@@ -83,7 +83,7 @@
 </head>
 <body>
   <!-- 全屏按鈕 -->
-  <button class="fullscreen-btn" id="fullscreen-btn">全屏模式</button>
+  <button class="fullscreen-btn" id="fullscreen-btn">全屏模式1</button>
 
   <div class="game-container" id="game-container">
     <!-- 卡片 -->
@@ -101,7 +101,7 @@
     const gameContainer = document.getElementById('game-container');
     const fullscreenBtn = document.getElementById('fullscreen-btn');
     const zones = [
-      { id: 'zone1', top: 60, left: 5, width: 10, height: 10 }, // % 位置
+      { id: 'zone1', top: 60, left: 5, width: 10, height: 10 }, // 原始百分比位置
       { id: 'zone2', top: 35, left: 50, width: 10, height: 10 },
       { id: 'zone3', top: 60, left: 85, width: 10, height: 10 },
     ];
@@ -113,17 +113,24 @@
 
     let selectedCard = null;
 
-    // 初始化放置區域
-    function initZones() {
+    // 根據背景圖實際尺寸重新計算放置區域的位置和大小
+    function updateZones() {
+      const containerRect = gameContainer.getBoundingClientRect(); // 獲取背景圖的實際尺寸
+
       zones.forEach(zone => {
         const el = document.getElementById(zone.id);
-        const { top, left, width, height } = zone;
 
-        // 根據背景圖的比例設置放置區域
-        el.style.top = `${top}%`;
-        el.style.left = `${left}%`;
-        el.style.width = `${width}%`;
-        el.style.height = `${height}%`;
+        // 將百分比轉換為像素值
+        const top = (zone.top / 100) * containerRect.height;
+        const left = (zone.left / 100) * containerRect.width;
+        const width = (zone.width / 100) * containerRect.width;
+        const height = (zone.height / 100) * containerRect.height;
+
+        // 設置放置區域的位置和大小
+        el.style.top = `${top}px`;
+        el.style.left = `${left}px`;
+        el.style.width = `${width}px`;
+        el.style.height = `${height}px`;
       });
     }
 
@@ -171,7 +178,7 @@
 
     // 初始化遊戲
     function initGame() {
-      initZones(); // 設置放置區域
+      updateZones(); // 設置放置區域
       initCards(); // 設置卡片
       initDropZones(); // 設置放置邏輯
     }
@@ -179,40 +186,36 @@
     // 初始化
     initGame();
 
-    // 當窗口大小改變時，重新初始化位置
+    // 當窗口大小改變或進入/退出全屏時，重新計算位置
     window.addEventListener('resize', () => {
-      initZones();
+      updateZones();
+    });
+
+    document.addEventListener('fullscreenchange', () => {
+      updateZones();
     });
 
     // 全屏模式切換
     fullscreenBtn.addEventListener('click', () => {
       if (!document.fullscreenElement) {
-        // 嘗試進入全屏模式
         if (gameContainer.requestFullscreen) {
           gameContainer.requestFullscreen();
-        } else if (gameContainer.webkitRequestFullscreen) { // Safari
+        } else if (gameContainer.webkitRequestFullscreen) {
           gameContainer.webkitRequestFullscreen();
-        } else if (gameContainer.msRequestFullscreen) { // IE11
+        } else if (gameContainer.msRequestFullscreen) {
           gameContainer.msRequestFullscreen();
         }
         fullscreenBtn.textContent = '退出全屏';
       } else {
-        // 退出全屏模式
         if (document.exitFullscreen) {
           document.exitFullscreen();
-        } else if (document.webkitExitFullscreen) { // Safari
+        } else if (document.webkitExitFullscreen) {
           document.webkitExitFullscreen();
-        } else if (document.msExitFullscreen) { // IE11
+        } else if (document.msExitFullscreen) {
           document.msExitFullscreen();
         }
         fullscreenBtn.textContent = '全屏模式';
       }
-      initZones(); // 重新初始化放置區域
-    });
-
-    // 當進入或退出全屏時重新計算位置
-    document.addEventListener('fullscreenchange', () => {
-      initZones();
     });
   </script>
 </body>
