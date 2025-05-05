@@ -20,18 +20,19 @@
     /* 遊戲容器 */
     .game-container {
       position: relative;
-      width: 100%; /* 容器寬度自適應 */
-      max-width: 1200px; /* 最大寬度限制 */
-      aspect-ratio: 3 / 2; /* 根據背景圖比例 (3:2) 設置高度 */
+      width: 1200px; /* 設計稿的寬度基準 */
+      height: 800px; /* 設計稿的高度基準 */
       background: url('uploaded_image.png') no-repeat center center;
-      background-size: contain; /* 確保背景圖完整顯示 */
+      background-size: cover;
+      transform-origin: top left; /* 縮放的起始點 */
     }
 
     /* 卡片樣式 */
     .draggable {
       position: absolute;
-      width: 10%; /* 初始卡片大小，稍後動態調整 */
-      padding: 5px;
+      width: 100px; /* 初始卡片大小，基於設計稿 */
+      height: 50px;
+      line-height: 50px;
       text-align: center;
       background-color: #90be6d;
       color: white;
@@ -83,117 +84,47 @@
 </head>
 <body>
   <!-- 全屏按鈕 -->
-  <button class="fullscreen-btn" id="fullscreen-btn">全屏模式1</button>
+  <button class="fullscreen-btn" id="fullscreen-btn">全屏模式2</button>
 
   <div class="game-container" id="game-container">
     <!-- 卡片 -->
-    <div id="card1" class="draggable">離開本國</div>
-    <div id="card2" class="draggable">神的應許</div>
-    <div id="card3" class="draggable">獻上燔祭</div>
+    <div id="card1" class="draggable" style="top: 600px; left: 50px;">離開本國</div>
+    <div id="card2" class="draggable" style="top: 600px; left: 250px;">神的應許</div>
+    <div id="card3" class="draggable" style="top: 600px; left: 450px;">獻上燔祭</div>
 
     <!-- 放置區域 -->
-    <div id="zone1" class="drop-zone"></div>
-    <div id="zone2" class="drop-zone"></div>
-    <div id="zone3" class="drop-zone"></div>
+    <div id="zone1" class="drop-zone" style="top: 480px; left: 60px; width: 120px; height: 120px;"></div>
+    <div id="zone2" class="drop-zone" style="top: 300px; left: 500px; width: 120px; height: 120px;"></div>
+    <div id="zone3" class="drop-zone" style="top: 480px; left: 900px; width: 120px; height: 120px;"></div>
   </div>
 
   <script>
     const gameContainer = document.getElementById('game-container');
     const fullscreenBtn = document.getElementById('fullscreen-btn');
-    const zones = [
-      { id: 'zone1', top: 60, left: 5, width: 10, height: 10 }, // 原始百分比位置
-      { id: 'zone2', top: 35, left: 50, width: 10, height: 10 },
-      { id: 'zone3', top: 60, left: 85, width: 10, height: 10 },
-    ];
-    const cards = [
-      { id: 'card1', text: '離開本國', zoneId: 'zone1' },
-      { id: 'card2', text: '神的應許', zoneId: 'zone3' },
-      { id: 'card3', text: '獻上燔祭', zoneId: 'zone2' },
-    ];
 
-    let selectedCard = null;
+    // 設計稿的尺寸
+    const DESIGN_WIDTH = 1200;
+    const DESIGN_HEIGHT = 800;
 
-    // 根據背景圖實際尺寸重新計算放置區域的位置和大小
-    function updateZones() {
-      const containerRect = gameContainer.getBoundingClientRect(); // 獲取背景圖的實際尺寸
+    // 縮放遊戲容器
+    function scaleGameContainer() {
+      const windowWidth = window.innerWidth;
+      const windowHeight = window.innerHeight;
 
-      zones.forEach(zone => {
-        const el = document.getElementById(zone.id);
+      // 計算縮放比例，按寬高比例縮放
+      const scale = Math.min(windowWidth / DESIGN_WIDTH, windowHeight / DESIGN_HEIGHT);
 
-        // 將百分比轉換為像素值
-        const top = (zone.top / 100) * containerRect.height;
-        const left = (zone.left / 100) * containerRect.width;
-        const width = (zone.width / 100) * containerRect.width;
-        const height = (zone.height / 100) * containerRect.height;
-
-        // 設置放置區域的位置和大小
-        el.style.top = `${top}px`;
-        el.style.left = `${left}px`;
-        el.style.width = `${width}px`;
-        el.style.height = `${height}px`;
-      });
-    }
-
-    // 初始化卡片
-    function initCards() {
-      cards.forEach((card, index) => {
-        const el = document.getElementById(card.id);
-
-        // 初始位置（底部排列）
-        el.style.top = `${80 + index * 5}%`;
-        el.style.left = `${10 + index * 20}%`;
-
-        el.addEventListener('click', () => {
-          if (selectedCard === el) {
-            el.style.transform = 'scale(1)';
-            selectedCard = null;
-          } else {
-            document.querySelectorAll('.draggable').forEach(c => c.style.transform = 'scale(1)');
-            el.style.transform = 'scale(1.2)';
-            selectedCard = el;
-          }
-        });
-      });
-    }
-
-    // 放置檢查
-    function initDropZones() {
-      document.querySelectorAll('.drop-zone').forEach(zone => {
-        zone.addEventListener('click', () => {
-          if (selectedCard) {
-            const card = cards.find(c => c.id === selectedCard.id);
-            if (card && card.zoneId === zone.id) {
-              zone.classList.add('correct');
-              zone.textContent = '放置成功！';
-              zone.appendChild(selectedCard);
-              selectedCard.style.transform = 'scale(1)';
-              selectedCard = null;
-            } else {
-              alert('放置錯誤，請重試！');
-            }
-          }
-        });
-      });
+      // 使用 transform: scale() 縮放容器
+      gameContainer.style.transform = `scale(${scale})`;
     }
 
     // 初始化遊戲
     function initGame() {
-      updateZones(); // 設置放置區域
-      initCards(); // 設置卡片
-      initDropZones(); // 設置放置邏輯
+      scaleGameContainer(); // 初始縮放
     }
 
-    // 初始化
-    initGame();
-
-    // 當窗口大小改變或進入/退出全屏時，重新計算位置
-    window.addEventListener('resize', () => {
-      updateZones();
-    });
-
-    document.addEventListener('fullscreenchange', () => {
-      updateZones();
-    });
+    // 當窗口大小改變或進入/退出全屏時，重新縮放
+    window.addEventListener('resize', scaleGameContainer);
 
     // 全屏模式切換
     fullscreenBtn.addEventListener('click', () => {
@@ -217,6 +148,9 @@
         fullscreenBtn.textContent = '全屏模式';
       }
     });
+
+    // 初始化
+    initGame();
   </script>
 </body>
 </html>
