@@ -207,6 +207,12 @@
         }
         fullscreenBtn.textContent = '全屏模式';
       }
+      initZones(); // 重新初始化放置區域
+    });
+
+    // 當進入或退出全屏時重新計算位置
+    document.addEventListener('fullscreenchange', () => {
+      initZones();
     });
   </script>
 </body>
